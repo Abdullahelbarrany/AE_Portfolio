@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Windows Portfolio App</title>
-    <link rel="stylesheet" href="/src/styles/main.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retro Windows Portfolio</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/window.svg">
 </head>
 <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <div id="desktop" aria-label="Desktop" tabindex="-1">
+    <div id="desktop-icons" role="list"></div>
+    <div id="taskbar" role="toolbar" aria-label="Taskbar">
+      <button id="start-button" aria-haspopup="true" aria-expanded="false">
+        <span class="start-flag" aria-hidden="true"></span>
+        <span class="start-text">Start</span>
+      </button>
+      <div id="taskbar-windows" aria-live="polite"></div>
+      <div id="taskbar-clock" aria-label="Clock">--:--</div>
+    </div>
+    <div id="start-menu" role="menu" aria-label="Start menu" hidden></div>
+  </div>
+  <div id="screen-overlay" hidden></div>
+  <template id="window-template">
+    <div class="window" role="dialog" aria-modal="false">
+      <div class="title-bar" tabindex="0">
+        <div class="title">
+          <img class="title-icon" alt="" />
+          <span class="title-text"></span>
+        </div>
+        <div class="window-controls">
+          <button class="btn-min" aria-label="Minimize">_</button>
+          <button class="btn-max" aria-label="Maximize">□</button>
+          <button class="btn-close" aria-label="Close">✕</button>
+        </div>
+      </div>
+      <div class="window-content"></div>
+    </div>
+  </template>
+  <script src="app.js" type="module"></script>
 </body>
 </html>

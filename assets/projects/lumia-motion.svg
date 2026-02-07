@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+  <rect width="1200" height="720" fill="#0f1119"/>
+  <g fill="none" stroke-linecap="round" stroke-width="10">
+    <path d="M180 360h840" stroke="#ffd665" stroke-dasharray="60 20"/>
+    <path d="M180 300h840" stroke="#7fe4ff" stroke-dasharray="30 14"/>
+    <path d="M180 420h840" stroke="#ff9edd" stroke-dasharray="20 12"/>
+  </g>
+  <circle cx="360" cy="360" r="14" fill="#ffd665"/>
+  <circle cx="600" cy="360" r="14" fill="#7fe4ff"/>
+  <circle cx="840" cy="360" r="14" fill="#ff9edd"/>
+  <text x="420" y="520" fill="#d8ddf5" font-family="Segoe UI" font-size="24">Optimized motion & lottie sequencing</text>
+</svg>

@@ -1,82 +1,47 @@
-# Windows Portfolio App
+# Retro Windows Portfolio (Static)
 
-## Overview
-The Windows Portfolio App simulates a Windows desktop environment, allowing users to interact with folders and files. It serves as a digital portfolio showcasing images, a CV, and work samples. The application is built using React and TypeScript, providing a modern and responsive user experience.
+Single-page retro Windows desktop portfolio built with vanilla HTML/CSS/JS. Everything runs client-side and works offline on GitHub Pages (no APIs or secrets).
 
-## Features
-- **Desktop Environment**: A simulated desktop interface with folders for Images, CV, and Work Samples.
-- **File Viewer**: A component to view files, including images and documents.
-- **Taskbar**: Quick access to open applications and folders.
-- **Routing**: Navigate between the Home and About pages seamlessly.
-- **LLM Integration**: A small language model using Gemini for enhanced interactivity.
+## Structure
+- `index.html` — shell and templates
+- `styles.css` — Windows 95-inspired UI + responsive + print
+- `app.js` — window manager, desktop apps, Ask Me logic
+- `data/about_me.json` — your content/knowledge base
+- `assets/` — icons, wallpaper, project images (replace as needed)
+- `assets/cv.pdf` (optional) — downloaded from the CV window
 
-## Project Structure
+## Running locally
+Any static server works. Example:
+```bash
+npx serve .   # or python -m http.server 8000
 ```
-windows-portfolio-app
-├── src
-│   ├── main.tsx
-│   ├── App.tsx
-│   ├── components
-│   │   ├── Desktop.tsx
-│   │   ├── Window.tsx
-│   │   ├── Taskbar.tsx
-│   │   ├── Folder.tsx
-│   │   └── FileViewer.tsx
-│   ├── pages
-│   │   ├── Home.tsx
-│   │   └── About.tsx
-│   ├── styles
-│   │   └── main.css
-│   ├── types
-│   │   └── index.ts
-│   └── assets
-│       ├── folders
-│       │   ├── CV
-│       │   ├── Images
-│       │   └── WorkSamples
-│       └── icons
-├── public
-│   └── index.html
-├── server
-│   ├── index.ts
-│   ├── routes
-│   │   └── api.ts
-│   └── llm
-│       └── geminiClient.ts
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-├── .gitignore
-└── README.md
-```
+Then open `http://localhost:8000`.
 
-## Setup Instructions
-1. **Clone the Repository**: 
-   ```
-   git clone <repository-url>
-   cd windows-portfolio-app
-   ```
+## Deploying to GitHub Pages
+1. Commit this repo.
+2. In GitHub, enable Pages for the main branch (root folder).
+3. All paths are relative, so subpath hosting works without changes.
 
-2. **Install Dependencies**: 
-   ```
-   npm install
-   ```
+## Customizing content
+Edit `data/about_me.json`:
+- Update `name`, `title`, `location`, `email`, `links`.
+- Adjust `bio_short`, `bio_long`, `stats`, `skills`, `process_steps`.
+- Add projects with `images` and `links`; set `featured_project_ids` (3 items).
+- Add achievements, experience, and education entries.
 
-3. **Run the Application**: 
-   ```
-   npm run dev
-   ```
+## Updating visuals
+- Replace wallpaper: drop a new image in `assets/wallpaper/` and update `styles.css` background URL.
+- Swap icons in `assets/icons/` (keep same filenames or update `ICONS` map in `app.js`).
+- Replace project art in `assets/projects/` and point `images[]` to the new files.
+- Add `assets/cv.pdf` to enable the “Download PDF” button.
 
-4. **Access the App**: Open your browser and navigate to `http://localhost:3000`.
+## Accessibility & performance
+- Semantic HTML, ARIA labels on interactive elements, prefers-reduced-motion respected.
+- Lazy loading on project thumbnails; minimal JS, no external requests.
 
-## Technologies Used
-- React
-- TypeScript
-- Vite
-- Gemini LLM
+## Troubleshooting
+- If Ask Me.exe shows no data, check console for JSON load errors and confirm the file path.
+- For mobile overlap, ensure images aren’t oversized; they’re set to responsive width by default.
 
-## Contributing
-Contributions are welcome! Please open an issue or submit a pull request for any enhancements or bug fixes.
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+## Credits
+Feel free to adapt the design—just keep the relative paths for GitHub Pages friendliness.

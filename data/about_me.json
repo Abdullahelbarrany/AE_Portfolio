@@ -1,0 +1,116 @@
+{
+  "name": "Alex Everly",
+  "title": "Product Designer & Design Technologist",
+  "location": "Brooklyn, NY",
+  "email": "hello@alexeverly.com",
+  "links": [
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/alexeverly" },
+    { "label": "Behance", "url": "https://www.behance.net/alexeverly" },
+    { "label": "Dribbble", "url": "https://dribbble.com/alexeverly" }
+  ],
+  "bio_short": "Designs human, fast, and polished product experiences across web and mobile.",
+  "bio_long": "I am a product designer who blends rigorous UX research with crisp interaction design and motion craft. I ship reliable UI systems, prototype quickly in code, and love translating complex workflows into clear, friendly interfaces.",
+  "stats": {
+    "years": 8,
+    "specialties": ["Product design", "Design systems", "Motion & prototyping"],
+    "tools": ["Figma", "Adobe Illustrator", "After Effects", "Framer", "Spline", "Notion", "Miro", "VS Code"]
+  },
+  "process_steps": [
+    "Discover: map the problem with research, metrics, and jobs-to-be-done.",
+    "Define: narrow scope, frame success metrics, storyboard ideal flows.",
+    "Design: craft IA, interaction patterns, motion, and accessibility checks.",
+    "Deliver: build coded prototypes, partner with engineering, document in the system.",
+    "Measure: ship, instrument, learn, and iterate quickly."
+  ],
+  "skills": [
+    "UX research",
+    "Interaction design",
+    "Design systems",
+    "Rapid prototyping",
+    "Motion design",
+    "Workshop facilitation"
+  ],
+  "achievements": [
+    { "year": 2025, "title": "Fast Company Innovation by Design — Honorable Mention", "org": "Fast Company", "details": "Recognized for inclusive banking flows." },
+    { "year": 2024, "title": "Awwwards Honorable Mention", "org": "Awwwards", "details": "Motion-rich marketing microsite for hardware launch." },
+    { "year": 2023, "title": "Design Systems Speaker", "org": "Clarity Conf", "details": "Spoke on resilient tokens for multi-brand apps." }
+  ],
+  "experience": [
+    { "role": "Senior Product Designer", "company": "Northstar", "years": "2022–Present", "summary": "Lead designer for money movement and support experiences; owned motion standards and prototypes." },
+    { "role": "Product Designer", "company": "Skyline", "years": "2019–2022", "summary": "Shipped design system v2 and accessibility uplift for web + mobile." },
+    { "role": "Visual Designer", "company": "Freelance", "years": "2016–2019", "summary": "Branding and interactive launches for early-stage teams." }
+  ],
+  "education": [
+    { "degree": "BFA, Graphic Design", "school": "Rhode Island School of Design", "years": "2012–2016" }
+  ],
+  "projects": [
+    {
+      "id": "orbitbank",
+      "name": "Orbit Bank",
+      "year": 2025,
+      "tags": ["Product", "Design System", "Fintech"],
+      "role": "Lead Product Designer",
+      "tools": ["Figma", "Framer", "After Effects"],
+      "summary": "Rebuilt the consumer banking app with faster onboarding and consistent tokens.",
+      "problem": "Inconsistent UI patterns slowed new feature delivery and created accessibility regressions.",
+      "approach": "Audited flows, created motion + component tokens, prototyped transitions in Framer, paired with engineering to codify behaviors.",
+      "outcome": "Shipped a unified design system that cut build time by 30% and raised app store rating by 0.4 stars.",
+      "images": [
+        "assets/projects/orbitbank-hero.svg",
+        "assets/projects/orbitbank-flow.svg"
+      ],
+      "links": [{ "label": "Case Study", "url": "https://example.com/orbitbank" }]
+    },
+    {
+      "id": "lumia",
+      "name": "Lumia Launch",
+      "year": 2024,
+      "tags": ["Marketing", "Motion", "3D"],
+      "role": "Motion Designer",
+      "tools": ["After Effects", "Spline", "Figma"],
+      "summary": "Motion-first launch site for a smart light product line.",
+      "problem": "Needed a memorable, performant story to convey ambient lighting features.",
+      "approach": "Storyboarded hero moments, built WebGL-friendly motion studies, optimized lottie playback for low-end devices.",
+      "outcome": "Lifted time-on-site by 22% and reduced bounce during hero segment by 15%.",
+      "images": [
+        "assets/projects/lumia-hero.svg",
+        "assets/projects/lumia-motion.svg"
+      ],
+      "links": [{ "label": "Live site", "url": "https://example.com/lumia" }]
+    },
+    {
+      "id": "trailmix",
+      "name": "Trailmix",
+      "year": 2023,
+      "tags": ["UX", "Mobile", "Outdoors"],
+      "role": "Product Designer",
+      "tools": ["Figma", "Principle"],
+      "summary": "Social trail planning app with offline-first navigation.",
+      "problem": "Hikers struggled to plan routes with clear difficulty and safety cues.",
+      "approach": "Ran diary studies, redesigned route cards, prototyped haptic cues and offline states.",
+      "outcome": "Beta cohort reported 18% fewer navigation drop-offs; NPS +12.",
+      "images": [
+        "assets/projects/trailmix-hero.svg",
+        "assets/projects/trailmix-map.svg"
+      ],
+      "links": [{ "label": "Prototype", "url": "https://example.com/trailmix" }]
+    },
+    {
+      "id": "atelier",
+      "name": "Atelier CMS",
+      "year": 2022,
+      "tags": ["UI/UX", "System"],
+      "role": "Product Designer",
+      "tools": ["Figma", "React prototypes"],
+      "summary": "Composable CMS UI for multi-brand editorial teams.",
+      "problem": "Editors duplicated layouts per brand and lacked guardrails for accessibility.",
+      "approach": "Built layout primitives with constraints, tokenized typography, and preview modes.",
+      "outcome": "Reduced template creation time by 40% and improved AA color compliance.",
+      "images": [
+        "assets/projects/atelier-hero.svg"
+      ],
+      "links": [{ "label": "System doc", "url": "https://example.com/atelier" }]
+    }
+  ],
+  "featured_project_ids": ["orbitbank", "lumia", "trailmix"]
+}
