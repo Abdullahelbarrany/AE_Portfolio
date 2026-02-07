@@ -45,3 +45,13 @@ Edit `data/about_me.json`:
 
 ## Credits
 Feel free to adapt the designâ€”just keep the relative paths for GitHub Pages friendliness.
+### MazeGame.exe (MazeSearch mini-game)
+- Open the desktop icon or Start menu entry “MazeGame.exe”.
+- Build a 21x21 maze by placing Start (blue), Goal (green), Walls (black), or Erase.
+- Choose BFS for shortest path or DFS for depth-first exploration.
+- Use Run for animation, Step for single expansion, Pause/Resume, Clear Visited, and Reset Grid.
+- Speed slider controls animation rate; visited nodes are cyan, BFS path is gold.
+- State persists in localStorage; “Load Example” drops in a sample maze.
+### Publications folder
+- Use the “Publications” desktop icon to view publications and blogs.
+- Edit `data/about_me.json` arrays `publications` and `blogs` to update the list.

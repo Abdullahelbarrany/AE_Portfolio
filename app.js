@@ -14,6 +14,8 @@ const ICONS = {
   ask: "assets/icons/app.svg",
   contact: "assets/icons/contact.svg",
   project: "assets/icons/folder.svg",
+  publications: "assets/icons/folder.svg",
+  maze: "assets/icons/maze.exe.png",
   window: "assets/icons/window.svg",
 };
 
@@ -50,8 +52,10 @@ async function loadData() {
 }
 
 function buildDesktopIcons() {
-  const icons = [
-    { app: "pic", label: "PIC", icon: ICONS.pic },
+    const icons = [
+    { app: "pic", label: "Projects", icon: ICONS.pic },
+    { app: "mazeGame", label: "MazeGame.exe", icon: ICONS.maze },
+    { app: "publications", label: "Publications", icon: ICONS.publications },
     { app: "cv", label: "CV", icon: ICONS.cv },
     { app: "achievements", label: "Achievements", icon: ICONS.achievements },
     { app: "ask", label: "Ask Me.exe", icon: ICONS.ask },
@@ -80,9 +84,11 @@ function buildDesktopIcons() {
 
 function buildStartMenu() {
   const menu = document.getElementById("start-menu");
-  const items = [
+    const items = [
     { app: "about", label: "About", icon: ICONS.about },
-    { app: "pic", label: "PIC", icon: ICONS.pic },
+    { app: "pic", label: "Projects", icon: ICONS.pic },
+    { app: "mazeGame", label: "MazeGame.exe", icon: ICONS.maze },
+    { app: "publications", label: "Publications", icon: ICONS.publications },
     { app: "cv", label: "CV", icon: ICONS.cv },
     { app: "achievements", label: "Achievements", icon: ICONS.achievements },
     { app: "ask", label: "Ask Me.exe", icon: ICONS.ask },
@@ -260,6 +266,11 @@ function minimizeWindow(id, setMin = true) {
 function closeWindow(id) {
   const meta = state.windows.get(id);
   if (!meta) return;
+  if (meta.type === "mazeGame" && state.maze) {
+    if (state.maze.timer) clearInterval(state.maze.timer);
+    state.maze.timer = null;
+    state.maze.running = false;
+  }
   meta.node.remove();
   removeTaskbarButton(id);
   state.windows.delete(id);
@@ -340,7 +351,7 @@ function openApp(appName, payload) {
       });
     case "pic":
       return createWindow("pic", {
-        title: "PIC",
+        title: "Projects",
         icon: ICONS.pic,
         render: (el) => renderPicExplorer(el, payload),
       });
@@ -369,7 +380,17 @@ function openApp(appName, payload) {
         icon: ICONS.ask,
         render: (el) => renderAskMe(el, data),
       });
-    case "contact":
+    case "publications":
+      return createWindow("publications", {
+        title: "Publications",
+        icon: ICONS.publications,
+        render: (el) => renderPublications(el, data),
+      });    case "mazeGame":
+      return createWindow("mazeGame", {
+        title: "MazeGame.exe - MazeSearch",
+        icon: ICONS.maze,
+        render: (el) => renderMazeGame(el),
+      });    case "contact":
       return createWindow("contact", {
         title: "Contact",
         icon: ICONS.contact,
@@ -522,30 +543,51 @@ function renderProjectViewer(el, projectId) {
 function renderCV(el, data) {
   el.innerHTML = `
     <div class="section-grid">
-      <h2>${data.name} — ${data.title}</h2>
+      <h2>${data.name} � ${data.title}</h2>
       <p>${data.bio_long}</p>
       <h3>Experience</h3>
       <ul>
         ${data.experience
-          .map((exp) => `<li><strong>${exp.role}</strong> @ ${exp.company} (${exp.years}) — ${exp.summary}</li>`)
+          .map((exp) => `<li><strong>${exp.role}</strong> @ ${exp.company} (${exp.years}) � ${exp.summary}</li>`)
           .join("")}
       </ul>
       <h3>Education</h3>
       <ul>
-        ${data.education.map((ed) => `<li>${ed.degree} — ${ed.school} (${ed.years})</li>`).join("")}
+        ${data.education.map((ed) => `<li>${ed.degree} � ${ed.school} (${ed.years})</li>`).join("")}
       </ul>
+      <div class="pdf-frame">
+        <object data="cv.pdf#toolbar=0" type="application/pdf" aria-label="CV preview"></object>
+        <div class="button-row">
+          <a class="btn primary" href="cv.pdf" target="_blank" rel="noreferrer noopener">Open CV (PDF)</a>
+          <a class="btn" href="cv.pdf" download>Download PDF</a>
+          <button class="btn" id="print-cv">Print</button>
+        </div>
+      </div>
       <h3>Skills</h3>
       <div class="meta-list">${data.skills.map((s) => `<span class="badge">${s}</span>`).join("")}</div>
       <h3>Tools</h3>
       <div class="meta-list">${data.stats.tools.map((t) => `<span class="badge">${t}</span>`).join("")}</div>
-      <div class="button-row">
-        <a class="btn primary" href="assets/cv.pdf" download>Download PDF</a>
-        <button class="btn" id="print-cv">Print</button>
-      </div>
     </div>
   `;
   const printBtn = el.querySelector("#print-cv");
   printBtn?.addEventListener("click", () => window.print());
+}
+
+function renderPublications(el, data) {
+  const pubs = data.publications || [];
+  const blogs = data.blogs || [];
+  el.innerHTML = `
+    <div class="section-grid">
+      <h2>Publications</h2>
+      <div class="pub-list">
+        ${pubs.length ? pubs.map((p) => `<div class="pub-card"><strong>${p.year}</strong> — ${p.title}${p.venue ? `, <em>${p.venue}</em>` : ""}${p.link ? ` — <a href="${p.link}" target="_blank" rel="noreferrer noopener">Link</a>` : ""}</div>`).join("") : "<p>No publications yet. Add them in data/about_me.json.</p>"}
+      </div>
+      <h3>Blogs</h3>
+      <div class="pub-list">
+        ${blogs.length ? blogs.map((b) => `<div class="pub-card"><strong>${b.year}</strong> — ${b.title}${b.platform ? ` (${b.platform})` : ""}${b.link ? ` — <a href="${b.link}" target="_blank" rel="noreferrer noopener">Read</a>` : ""}</div>`).join("") : "<p>No blog posts yet. Add them in data/about_me.json.</p>"}
+      </div>
+    </div>
+  `;
 }
 
 function renderAchievements(el, data) {
@@ -687,7 +729,7 @@ function askMeRespond(userText, data) {
     res.text = topProjects
       .map((p) => `• ${p.name} (${p.year}) — ${p.summary}`)
       .join("<br>");
-    res.text += `<br><br>Open PIC to view more or double-click a project file.`;
+    res.text += `<br><br>Open Projects to view more or double-click a project file.`;
     res.sources = "Projects";
     return res;
   }
@@ -718,13 +760,444 @@ function askMeRespond(userText, data) {
   return res;
 }
 
+function getDefaultMazeState() {
+  const rows = 21;
+  const cols = 21;
+  return {
+    rows,
+    cols,
+    grid: Array.from({ length: rows }, () => Array(cols).fill(0)),
+    start: { r: 10, c: 5 },
+    goal: { r: 10, c: 15 },
+    visited: new Set(),
+    path: new Set(),
+    parents: {},
+    queue: [],
+    stack: [],
+    mode: "start",
+    algo: "bfs",
+    running: false,
+    timer: null,
+    status: "Ready",
+    speed: 5,
+  };
+}
+
+function loadMazeState() {
+  try {
+    const raw = localStorage.getItem("mazeGameState");
+    if (!raw) return getDefaultMazeState();
+    const data = JSON.parse(raw);
+    const maze = getDefaultMazeState();
+    maze.grid = data.grid || maze.grid;
+    maze.start = data.start || maze.start;
+    maze.goal = data.goal || maze.goal;
+    maze.algo = data.algo || "bfs";
+    maze.mode = data.mode || "start";
+    return maze;
+  } catch (err) {
+    console.warn("Maze load failed", err);
+    return getDefaultMazeState();
+  }
+}
+
+function saveMazeState(maze) {
+  try {
+    const payload = {
+      grid: maze.grid,
+      start: maze.start,
+      goal: maze.goal,
+      algo: maze.algo,
+      mode: maze.mode,
+    };
+    localStorage.setItem("mazeGameState", JSON.stringify(payload));
+  } catch (err) {
+    console.warn("Maze save failed", err);
+  }
+}
+
+function renderMazeGame(el) {
+  state.maze = state.maze || loadMazeState();
+  const maze = state.maze;
+  if (maze.timer) {
+    clearInterval(maze.timer);
+    maze.timer = null;
+    maze.running = false;
+  }
+
+  el.innerHTML = `
+    <div class="maze-wrapper">
+      <div class="maze-toolbar">
+        <div class="tool-group" id="maze-modes">
+          <button class="btn small" data-mode="start">Place Start</button>
+          <button class="btn small" data-mode="goal">Place Goal</button>
+          <button class="btn small" data-mode="wall">Place Wall</button>
+          <button class="btn small" data-mode="erase">Erase</button>
+        </div>
+        <div class="tool-group">
+          <label class="inline-label">Algo
+            <select id="maze-algo">
+              <option value="bfs">BFS (shortest)</option>
+              <option value="dfs">DFS</option>
+            </select>
+          </label>
+        </div>
+        <div class="tool-group">
+          <button class="btn small" id="maze-run">Run</button>
+          <button class="btn small" id="maze-step">Step</button>
+          <button class="btn small" id="maze-pause">Pause/Resume</button>
+          <button class="btn small" id="maze-clear">Clear Visited</button>
+          <button class="btn small" id="maze-reset">Reset Grid</button>
+          <button class="btn small" id="maze-example">Load Example</button>
+        </div>
+        <div class="tool-group">
+          <label class="inline-label">Speed
+            <input type="range" id="maze-speed" min="1" max="10" value="${maze.speed}" />
+          </label>
+        </div>
+        <div class="status" id="maze-status" aria-live="polite">${maze.status}</div>
+      </div>
+      <div class="maze-grid" id="maze-grid" role="grid" aria-label="Maze grid"></div>
+      <div class="maze-legend">
+        <span><span class="legend swatch start"></span>Start (Blue)</span>
+        <span><span class="legend swatch goal"></span>Goal (Green)</span>
+        <span><span class="legend swatch wall"></span>Wall</span>
+        <span><span class="legend swatch visited"></span>Visited</span>
+        <span><span class="legend swatch path"></span>Path</span>
+      </div>
+    </div>
+  `;
+
+  const gridEl = el.querySelector("#maze-grid");
+  const statusEl = el.querySelector("#maze-status");
+  const modeButtons = [...el.querySelectorAll('[data-mode]')];
+  const algoSelect = el.querySelector("#maze-algo");
+  const speedInput = el.querySelector("#maze-speed");
+
+  algoSelect.value = maze.algo;
+  setMode(maze.mode);
+  renderGrid();
+
+  modeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      setMode(btn.dataset.mode);
+    });
+  });
+
+  el.querySelector("#maze-run").addEventListener("click", () => startRun(false));
+  el.querySelector("#maze-step").addEventListener("click", () => startRun(true));
+  el.querySelector("#maze-pause").addEventListener("click", togglePause);
+  el.querySelector("#maze-clear").addEventListener("click", () => {
+    clearVisited();
+    renderGrid();
+    setStatus("Ready");
+  });
+  el.querySelector("#maze-reset").addEventListener("click", () => {
+    const fresh = getDefaultMazeState();
+    Object.assign(maze, fresh);
+    saveMazeState(maze);
+    renderGrid();
+    setStatus("Grid reset");
+  });
+  el.querySelector("#maze-example").addEventListener("click", () => {
+    buildExampleMaze(maze);
+    saveMazeState(maze);
+    renderGrid();
+    setStatus("Example loaded");
+  });
+
+  speedInput.addEventListener("input", () => {
+    maze.speed = Number(speedInput.value);
+    if (maze.running && maze.timer) {
+      clearInterval(maze.timer);
+      maze.timer = setInterval(() => stepOnce(), speedToDelay(maze.speed));
+    }
+  });
+
+  algoSelect.addEventListener("change", () => {
+    maze.algo = algoSelect.value;
+    saveMazeState(maze);
+  });
+
+  function setMode(mode) {
+    maze.mode = mode;
+    modeButtons.forEach((b) => b.classList.toggle("primary", b.dataset.mode === mode));
+    saveMazeState(maze);
+  }
+
+  function renderGrid() {
+    gridEl.innerHTML = "";
+    gridEl.style.setProperty("--cols", maze.cols);
+    for (let r = 0; r < maze.rows; r++) {
+      for (let c = 0; c < maze.cols; c++) {
+        const btn = document.createElement("button");
+        btn.className = "maze-cell";
+        btn.setAttribute("role", "gridcell");
+        btn.setAttribute("aria-label", `Cell ${r + 1}, ${c + 1}`);
+        btn.dataset.r = r;
+        btn.dataset.c = c;
+        const key = mazeKey({ r, c });
+        if (maze.start && maze.start.r === r && maze.start.c === c) btn.classList.add("cell-start");
+        else if (maze.goal && maze.goal.r === r && maze.goal.c === c) btn.classList.add("cell-goal");
+        else if (maze.grid[r][c] === 1) btn.classList.add("cell-wall");
+        else if (maze.path.has(key)) btn.classList.add("cell-path");
+        else if (maze.visited.has(key)) btn.classList.add("cell-visited");
+
+        btn.addEventListener("click", () => applyTool(r, c));
+        btn.addEventListener("keydown", (e) => handleGridKey(e, r, c, btn));
+        gridEl.appendChild(btn);
+      }
+    }
+  }
+
+  function handleGridKey(e, r, c, btn) {
+    const move = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }[e.key];
+    if (move) {
+      e.preventDefault();
+      const [dr, dc] = move;
+      const nr = Math.max(0, Math.min(maze.rows - 1, r + dr));
+      const nc = Math.max(0, Math.min(maze.cols - 1, c + dc));
+      const next = gridEl.querySelector(`[data-r="${nr}"][data-c="${nc}"]`);
+      next?.focus();
+      return;
+    }
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      applyTool(r, c);
+    }
+  }
+
+  function applyTool(r, c) {
+    const cellKey = mazeKey({ r, c });
+    if (maze.mode === "start") {
+      if (maze.grid[r][c] === 1) maze.grid[r][c] = 0;
+      maze.start = { r, c };
+    } else if (maze.mode === "goal") {
+      if (maze.grid[r][c] === 1) maze.grid[r][c] = 0;
+      maze.goal = { r, c };
+    } else if (maze.mode === "wall") {
+      if (maze.start && maze.start.r === r && maze.start.c === c) return setStatus("Cannot place wall on start");
+      if (maze.goal && maze.goal.r === r && maze.goal.c === c) return setStatus("Cannot place wall on goal");
+      maze.grid[r][c] = 1;
+    } else if (maze.mode === "erase") {
+      maze.grid[r][c] = 0;
+      if (maze.start && maze.start.r === r && maze.start.c === c) maze.start = null;
+      if (maze.goal && maze.goal.r === r && maze.goal.c === c) maze.goal = null;
+    }
+    clearVisited();
+    saveMazeState(maze);
+    renderGrid();
+    setStatus("Ready");
+  }
+
+  function clearVisited() {
+    maze.visited = new Set();
+    maze.path = new Set();
+    maze.parents = {};
+    maze.queue = [];
+    maze.stack = [];
+    maze.running = false;
+    if (maze.timer) {
+      clearInterval(maze.timer);
+      maze.timer = null;
+    }
+  }
+
+  function startRun(stepOnly) {
+    if (!maze.start || !maze.goal) {
+      setStatus("Place start and goal first");
+      return;
+    }
+    if (!maze.running) {
+      clearVisited();
+      maze.visited.add(mazeKey(maze.start));
+      maze.queue.push(maze.start);
+      maze.stack.push(maze.start);
+    }
+    maze.running = true;
+    const delay = speedToDelay(maze.speed);
+    if (maze.timer) clearInterval(maze.timer);
+    if (stepOnly) {
+      stepOnce();
+    } else {
+      maze.timer = setInterval(() => stepOnce(), delay);
+    }
+  }
+
+  function togglePause() {
+    if (maze.running) {
+      maze.running = false;
+      if (maze.timer) {
+        clearInterval(maze.timer);
+        maze.timer = null;
+      }
+      setStatus("Paused");
+      return;
+    }
+    // resume if we have progress
+    if (!maze.queue.length && !maze.stack.length) {
+      startRun(false);
+      return;
+    }
+    maze.running = true;
+    if (maze.timer) clearInterval(maze.timer);
+    maze.timer = setInterval(() => stepOnce(), speedToDelay(maze.speed));
+    setStatus("Running...");
+  }
+
+  function stepOnce() {
+    const result = maze.algo === "bfs" ? bfsStep() : dfsStep();
+    renderGrid();
+    if (result === "goal") {
+      setStatus("Path found");
+      stopRun();
+    } else if (result === "dead") {
+      setStatus("No path found");
+      stopRun();
+    } else {
+      setStatus("Running...");
+    }
+  }
+
+  function stopRun() {
+    maze.running = false;
+    if (maze.timer) {
+      clearInterval(maze.timer);
+      maze.timer = null;
+    }
+  }
+
+  function bfsStep() {
+    if (!maze.queue.length) return "dead";
+    const current = maze.queue.shift();
+    const cKey = mazeKey(current);
+    if (current.r === maze.goal.r && current.c === maze.goal.c) {
+      buildPath(cKey);
+      return "goal";
+    }
+    for (const n of mazeNeighbors(current, maze.rows, maze.cols)) {
+      const nKey = mazeKey(n);
+      if (maze.grid[n.r][n.c] === 1) continue;
+      if (maze.visited.has(nKey)) continue;
+      maze.visited.add(nKey);
+      maze.parents[nKey] = cKey;
+      maze.queue.push(n);
+    }
+    return maze.queue.length ? "running" : "dead";
+  }
+
+  function dfsStep() {
+    if (!maze.stack.length) return "dead";
+    const current = maze.stack.pop();
+    const cKey = mazeKey(current);
+    if (current.r === maze.goal.r && current.c === maze.goal.c) {
+      buildPath(cKey);
+      return "goal";
+    }
+    for (const n of mazeNeighbors(current, maze.rows, maze.cols)) {
+      const nKey = mazeKey(n);
+      if (maze.grid[n.r][n.c] === 1) continue;
+      if (maze.visited.has(nKey)) continue;
+      maze.visited.add(nKey);
+      maze.parents[nKey] = cKey;
+      maze.stack.push(n);
+    }
+    return maze.stack.length ? "running" : "dead";
+  }
+
+  function buildPath(goalKey) {
+    maze.path = new Set();
+    let cursor = goalKey;
+    while (maze.parents[cursor]) {
+      maze.path.add(cursor);
+      cursor = maze.parents[cursor];
+    }
+  }
+
+  function setStatus(text) {
+    maze.status = text;
+    statusEl.textContent = text;
+  }
+}
+
+function mazeKey(pos) {
+  return `${pos.r},${pos.c}`;
+}
+
+function mazeNeighbors(pos, rows, cols) {
+  return [
+    { r: pos.r - 1, c: pos.c },
+    { r: pos.r + 1, c: pos.c },
+    { r: pos.r, c: pos.c - 1 },
+    { r: pos.r, c: pos.c + 1 },
+  ].filter((p) => p.r >= 0 && p.r < rows && p.c >= 0 && p.c < cols);
+}
+
+function speedToDelay(speed) {
+  const clamped = Math.max(1, Math.min(10, speed));
+  return 650 - clamped * 55; // 595ms down to ~100ms
+}
+
+function buildExampleMaze(maze) {
+  const rows = maze.rows;
+  const cols = maze.cols;
+  maze.grid = Array.from({ length: rows }, () => Array(cols).fill(0));
+  for (let r = 2; r < rows - 2; r++) {
+    maze.grid[r][Math.floor(cols / 2)] = 1;
+    if (r % 2 === 0 && r < rows - 4) maze.grid[r][Math.floor(cols / 2) - 2] = 1;
+  }
+  maze.start = { r: rows - 3, c: 2 };
+  maze.goal = { r: 2, c: cols - 3 };
+  clearVisited();
+  function clearVisited() {
+    maze.visited = new Set();
+    maze.path = new Set();
+    maze.parents = {};
+    maze.queue = [];
+    maze.stack = [];
+    maze.running = false;
+    if (maze.timer) {
+      clearInterval(maze.timer);
+      maze.timer = null;
+    }
+  }
+}
 function shutdown() {
   const overlay = document.getElementById("screen-overlay");
   overlay.innerHTML = `<div>Shutting down...<br><small>Refresh to wake.</small></div>`;
   overlay.hidden = false;
-  setTimeout(() => {
+
+  const closeOverlay = () => {
     overlay.hidden = true;
-    // close windows
+    overlay.removeEventListener("click", closeOverlay);
+    document.removeEventListener("keydown", escClose);
+  };
+  const escClose = (e) => {
+    if (e.key === "Escape") closeOverlay();
+  };
+
+  overlay.addEventListener("click", closeOverlay);
+  document.addEventListener("keydown", escClose);
+
+  setTimeout(() => {
+    closeOverlay();
     [...state.windows.keys()].forEach(closeWindow);
-  }, 1600);
+  }, 1200);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

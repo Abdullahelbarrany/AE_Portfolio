@@ -1,116 +1,263 @@
 {
-  "name": "Alex Everly",
-  "title": "Product Designer & Design Technologist",
-  "location": "Brooklyn, NY",
-  "email": "hello@alexeverly.com",
+  "name": "Abdullah Magdy Elbarrany",
+  "title": "Machine Learning Engineer & Applied AI Specialist",
+  "location": "Egypt",
+  "email": "abdullah.elbarrany@gmail.com",
   "links": [
-    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/alexeverly" },
-    { "label": "Behance", "url": "https://www.behance.net/alexeverly" },
-    { "label": "Dribbble", "url": "https://dribbble.com/alexeverly" }
+    { "label": "GitHub", "url": "https://github.com/Abdullahelbarrany" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/abdullahelbarrany" }
   ],
-  "bio_short": "Designs human, fast, and polished product experiences across web and mobile.",
-  "bio_long": "I am a product designer who blends rigorous UX research with crisp interaction design and motion craft. I ship reliable UI systems, prototype quickly in code, and love translating complex workflows into clear, friendly interfaces.",
+  "bio_short": "Machine Learning Engineer building production-grade AI systems across computer vision, LLMs, and applied ML.",
+  "bio_long": "I’m a Machine Learning Engineer with hands-on experience designing, deploying, and evaluating real-world AI systems. My work spans computer vision, deep learning, and LLM-powered tools for decision support and retrieval. I care deeply about performance, scalability, and turning research-grade models into reliable production services.",
   "stats": {
-    "years": 8,
-    "specialties": ["Product design", "Design systems", "Motion & prototyping"],
-    "tools": ["Figma", "Adobe Illustrator", "After Effects", "Framer", "Spline", "Notion", "Miro", "VS Code"]
+    "years": 3,
+    "specialties": [
+      "Computer Vision",
+      "Deep Learning",
+      "LLM-based Systems",
+      "MLOps & Deployment"
+    ],
+    "tools": [
+      "Python",
+      "PyTorch",
+      "TensorFlow",
+      "YOLO",
+      "OpenCV",
+      "Docker",
+      "GCP",
+      "AWS",
+      "Flutter",
+      "Firebase",
+      "Git",
+      "Linux"
+    ]
   },
   "process_steps": [
-    "Discover: map the problem with research, metrics, and jobs-to-be-done.",
-    "Define: narrow scope, frame success metrics, storyboard ideal flows.",
-    "Design: craft IA, interaction patterns, motion, and accessibility checks.",
-    "Deliver: build coded prototypes, partner with engineering, document in the system.",
-    "Measure: ship, instrument, learn, and iterate quickly."
+    "Problem Framing: understand domain constraints, users, and performance targets.",
+    "Data & Modeling: prepare datasets, select architectures, train and evaluate models.",
+    "System Design: design inference pipelines and ML services that integrate with products.",
+    "Deployment: ship scalable ML systems with monitoring, logging, and performance tracking.",
+    "Iteration: analyze production feedback and continuously improve models and pipelines."
   ],
   "skills": [
-    "UX research",
-    "Interaction design",
-    "Design systems",
-    "Rapid prototyping",
-    "Motion design",
-    "Workshop facilitation"
+    "Computer vision",
+    "Deep learning",
+    "LLM-based systems",
+    "Retrieval-Augmented Generation (RAG)",
+    "Model evaluation & optimization",
+    "MLOps & cloud deployment",
+    "Data analysis",
+    "API development"
   ],
   "achievements": [
-    { "year": 2025, "title": "Fast Company Innovation by Design — Honorable Mention", "org": "Fast Company", "details": "Recognized for inclusive banking flows." },
-    { "year": 2024, "title": "Awwwards Honorable Mention", "org": "Awwwards", "details": "Motion-rich marketing microsite for hardware launch." },
-    { "year": 2023, "title": "Design Systems Speaker", "org": "Clarity Conf", "details": "Spoke on resilient tokens for multi-brand apps." }
+    { "year": 2024, "title": "First Place – 6th UGRF Special Edition", "org": "Nile University", "details": "Awarded for applied AI research and engineering impact." },
+    { "year": 2023, "title": "Best Paper Award", "org": "IMSA International Conference", "details": "Recognized for research on abnormal behavior analysis using deep learning." },
+    { "year": 2023, "title": "Finalist – Innov8 Hackathon", "org": "Bahrain", "details": "Selected finalist for AI-powered solution." },
+    { "year": 2022, "title": "Finalist – Benha Hackathon", "org": "Benha University", "details": "Built an applied AI prototype under time constraints." }
   ],
   "experience": [
-    { "role": "Senior Product Designer", "company": "Northstar", "years": "2022–Present", "summary": "Lead designer for money movement and support experiences; owned motion standards and prototypes." },
-    { "role": "Product Designer", "company": "Skyline", "years": "2019–2022", "summary": "Shipped design system v2 and accessibility uplift for web + mobile." },
-    { "role": "Visual Designer", "company": "Freelance", "years": "2016–2019", "summary": "Branding and interactive launches for early-stage teams." }
+    {
+      "role": "Machine Learning Engineer",
+      "company": "mDoc",
+      "years": "Mar 2024 – Present",
+      "summary": "Led end-to-end development of production ML and LLM systems; designed scalable ML services on GCP with monitoring and performance dashboards."
+    },
+    {
+      "role": "Machine Learning Engineer",
+      "company": "Zedzag",
+      "years": "May 2023 – Dec 2024",
+      "summary": "Built and deployed real-time computer vision systems; owned the full ML lifecycle from data to production integration."
+    }
   ],
   "education": [
-    { "degree": "BFA, Graphic Design", "school": "Rhode Island School of Design", "years": "2012–2016" }
+    {
+      "degree": "BSc in Computer Science",
+      "school": "University of Greenwich",
+      "years": "2019–2023",
+      "details": "CGPA: 3.6"
+    }
+  ],
+  "certifications": [
+    {
+      "year": 2025,
+      "title": "Introduction to Model Context Protocol",
+      "org": "Anthropic",
+      "id": "hsfuzd4qi7tj"
+    },
+    {
+      "year": 2022,
+      "title": "Mobile Development Using Flutter",
+      "org": "Information Technology Institute (ITI)",
+      "skills": ["Flutter", "Mobile App Development"]
+    },
+    {
+      "year": 2022,
+      "title": "AWS Academy Graduate – Cloud Foundations",
+      "org": "Amazon Web Services (AWS)",
+      "skills": ["Cloud Computing"]
+    },
+    {
+      "year": 2021,
+      "title": "Artificial Intelligence Analyst – Explorer Award",
+      "org": "IBM",
+      "skills": ["IBM Watson"]
+    },
+    {
+      "year": 2021,
+      "title": "Scrum Fundamentals Certified (SFC)",
+      "org": "Vabro.ai / VMEdu",
+      "id": "890607"
+    },
+    {
+      "year": 2022,
+      "title": "Critical Thinking Skills Training Program",
+      "org": "Medex International",
+      "skills": ["Critical Thinking"]
+    }
   ],
   "projects": [
     {
-      "id": "orbitbank",
-      "name": "Orbit Bank",
-      "year": 2025,
-      "tags": ["Product", "Design System", "Fintech"],
-      "role": "Lead Product Designer",
-      "tools": ["Figma", "Framer", "After Effects"],
-      "summary": "Rebuilt the consumer banking app with faster onboarding and consistent tokens.",
-      "problem": "Inconsistent UI patterns slowed new feature delivery and created accessibility regressions.",
-      "approach": "Audited flows, created motion + component tokens, prototyped transitions in Framer, paired with engineering to codify behaviors.",
-      "outcome": "Shipped a unified design system that cut build time by 30% and raised app store rating by 0.4 stars.",
-      "images": [
-        "assets/projects/orbitbank-hero.svg",
-        "assets/projects/orbitbank-flow.svg"
-      ],
-      "links": [{ "label": "Case Study", "url": "https://example.com/orbitbank" }]
-    },
-    {
-      "id": "lumia",
-      "name": "Lumia Launch",
+      "id": "poultry-ai",
+      "name": "Abnormal Behavior Analysis for Poultry Farms",
       "year": 2024,
-      "tags": ["Marketing", "Motion", "3D"],
-      "role": "Motion Designer",
-      "tools": ["After Effects", "Spline", "Figma"],
-      "summary": "Motion-first launch site for a smart light product line.",
-      "problem": "Needed a memorable, performant story to convey ambient lighting features.",
-      "approach": "Storyboarded hero moments, built WebGL-friendly motion studies, optimized lottie playback for low-end devices.",
-      "outcome": "Lifted time-on-site by 22% and reduced bounce during hero segment by 15%.",
-      "images": [
-        "assets/projects/lumia-hero.svg",
-        "assets/projects/lumia-motion.svg"
-      ],
-      "links": [{ "label": "Live site", "url": "https://example.com/lumia" }]
+      "tags": ["Computer Vision", "Deep Learning", "AI"],
+      "role": "ML Engineer",
+      "tools": ["Python", "YOLOv8", "OpenCV", "BI-LSTM", "GRU"],
+      "summary": "Real-time computer vision system for anomaly detection in poultry farms.",
+      "problem": "Manual monitoring of poultry behavior is inefficient and error-prone.",
+      "approach": "Built pose-based and trajectory-based detection pipelines using YOLO and RNNs.",
+      "outcome": "Achieved up to 99.7% precision and enabled scalable real-time monitoring.",
+      "images": ["assets/projects/methods.png"],
+      "links": [{ "label": "Paper", "url": "hhttps://thesai.org/Downloads/Volume14No3/Paper_106-Chicken_Behavior_Analysis_for_Surveillance_in_Poultry_Farms.pdf" }]
     },
     {
-      "id": "trailmix",
-      "name": "Trailmix",
+      "id": "statue-vision",
+      "name": "Statue Vision – AI Museum Guide",
       "year": 2023,
-      "tags": ["UX", "Mobile", "Outdoors"],
-      "role": "Product Designer",
-      "tools": ["Figma", "Principle"],
-      "summary": "Social trail planning app with offline-first navigation.",
-      "problem": "Hikers struggled to plan routes with clear difficulty and safety cues.",
-      "approach": "Ran diary studies, redesigned route cards, prototyped haptic cues and offline states.",
-      "outcome": "Beta cohort reported 18% fewer navigation drop-offs; NPS +12.",
-      "images": [
-        "assets/projects/trailmix-hero.svg",
-        "assets/projects/trailmix-map.svg"
-      ],
-      "links": [{ "label": "Prototype", "url": "https://example.com/trailmix" }]
+      "tags": ["Computer Vision", "Mobile", "Embeddings"],
+      "role": "ML Engineer",
+      "tools": ["Python", "YOLO", "Flask", "Flutter", "Firebase"],
+      "summary": "AI-powered museum guide using visual recognition and similarity search.",
+      "problem": "Visitors lacked interactive ways to explore museum artifacts.",
+      "approach": "Built YOLO-based recognition with embedding similarity and mobile integration.",
+      "outcome": "Enabled real-time recognition and artifact info retrieval via mobile app.",
+      "images": ["assets/projects/statue.jpg"],
+      "links": [{ "label": "GitHub", "url": "https://github.com/Abdullahelbarrany/StatueVision" }]
     },
     {
-      "id": "atelier",
-      "name": "Atelier CMS",
+      "id": "bucktracker",
+      "name": "BuckTracker – Multi-Banknote Tracking",
+      "year": 2023,
+      "tags": ["OCR", "Computer Vision", "Fintech"],
+      "role": "ML Engineer",
+      "tools": ["Python", "OpenCV", "Tesseract OCR", "TensorFlow"],
+      "summary": "AI system for tracking and recognizing banknotes across frames.",
+      "problem": "Needed robust identification of banknotes in real-world conditions.",
+      "approach": "Combined CNNs with OCR pipelines for serial number recognition.",
+      "outcome": "Achieved 92% accuracy across USD, GBP, and EUR banknotes.",
+      "images": ["assets/projects/buck.png"],
+      "links": [{ "label": "GitHub", "url": "https://github.com/Abdullahelbarrany/BuckTracker-Multi-Banknote-Tracking-System" }]
+    },
+    {
+      "id": "homeiot",
+      "name": "HomeIoT – Smart Home App",
       "year": 2022,
-      "tags": ["UI/UX", "System"],
-      "role": "Product Designer",
-      "tools": ["Figma", "React prototypes"],
-      "summary": "Composable CMS UI for multi-brand editorial teams.",
-      "problem": "Editors duplicated layouts per brand and lacked guardrails for accessibility.",
-      "approach": "Built layout primitives with constraints, tokenized typography, and preview modes.",
-      "outcome": "Reduced template creation time by 40% and improved AA color compliance.",
-      "images": [
-        "assets/projects/atelier-hero.svg"
-      ],
-      "links": [{ "label": "System doc", "url": "https://example.com/atelier" }]
+      "tags": ["IoT", "Mobile", "Flutter"],
+      "role": "Mobile / ML Engineer",
+      "tools": ["Flutter", "Firebase", "MQTT"],
+      "summary": "Flutter-based IoT app for controlling smart home devices.",
+      "problem": "Users needed a simple interface to manage and control smart lamps.",
+      "approach": "Built Flutter app with real-time device discovery and cloud sync.",
+      "outcome": "Enabled seamless control and real-time device management.",
+      "images": ["assets/projects/homeiot (2).jpg"],
+      "links": [{ "label": "GitHub", "url": "https://github.com/Abdullahelbarrany/Iswitch" }]
+    },
+     {
+      "id": "orphanage-system",
+      "name": "Orphanage Management System",
+      "year": 2022,
+      "tags": ["Web", "PHP", "Backend", "Security", "Design Patterns"],
+      "role": "Full-Stack Developer",
+      "tools": ["PHP (OOP)", "MySQL", "HTML", "CSS", "JavaScript"],
+      "summary": "Web-based platform to manage orphan registrations, donations, and secure transactions with role-based access control.",
+      "problem": "Manual orphan and donation management led to data inconsistency, security risks, and poor scalability.",
+      "approach": "Built a modular PHP system using MVC and multiple design patterns (Singleton, Factory, Facade, Strategy, Observer, Decorator) with RBAC and encrypted data handling.",
+      "outcome": "Delivered a scalable, maintainable system with secure authentication, donation tracking, and structured data management.",
+      "images": [""],
+      "links": [{ "label": "Repository", "url": "https://github.com/Abdullahelbarrany/orphanage-System-php-with-oop-design-pattern" }]
+    },
+    {
+      "id": "statuevision",
+      "name": "StatueVision – AI Museum Guide",
+      "year": 2023,
+      "tags": ["Computer Vision", "YOLOv8", "Flutter", "Flask", "Firebase"],
+      "role": "ML Engineer",
+      "tools": ["YOLOv8", "Python", "Flask", "Flutter", "Firebase Firestore"],
+      "summary": "AI-powered mobile museum guide that identifies statues and delivers multilingual descriptions with audio playback.",
+      "problem": "Museum visitors lacked interactive, accessible ways to explore statue information.",
+      "approach": "Trained YOLOv8 for statue recognition, exposed inference via Flask API, and integrated with a Flutter app backed by Firebase Firestore.",
+      "outcome": "Enabled real-time statue recognition with multilingual content and audio, improving visitor engagement.",
+      "images": ["assets/projects/statue.jpg"],
+      "links": [{ "label": "Repository", "url": "https://github.com/Abdullahelbarrany/StatueVision" }]
+    },
+    {
+  "id": "image-enhancement-gui",
+  "name": "Image Enhancement & Filtering GUI",
+  "year": 2024,
+  "tags": ["Image Processing", "Computer Vision", "GUI", "Python"],
+  "role": "Computer Vision Engineer",
+  "tools": ["Python", "OpenCV", "NumPy", "PySimpleGUI", "Pillow", "Matplotlib"],
+  "summary": "Python-based GUI application for image enhancement, noise filtering, sharpening, histogram processing, and frequency-domain transformations.",
+  "problem": "Applying and comparing image enhancement techniques is cumbersome without an interactive, visual interface.",
+  "approach": "Built a user-friendly GUI with PySimpleGUI to apply spatial and frequency-domain filters in real time, integrating OpenCV and NumPy for processing and Matplotlib/Pillow for visualization.",
+  "outcome": "Enabled side-by-side visualization of original vs processed images, making image processing techniques easier to explore, debug, and learn.",
+  "images": ["assets/projects/med.png"],
+  "links": [
+    { "label": "Repository", "url": "https://github.com/Abdullahelbarrany/Image-Enhancement-Filtering" }
+  ]
+},
+
+    {
+      "id": "crypto-chat",
+      "name": "Crypto-Chat (SecureChat)",
+      "year": 2022,
+      "tags": ["Security", "Cryptography", "Networking", "Python"],
+      "role": "Backend & Security Engineer",
+      "tools": ["Python", "Tkinter", "RSA", "AES", "DES", "ElGamal"],
+      "summary": "End-to-end encrypted chat application supporting multiple cryptographic algorithms via a trusted server model.",
+      "problem": "Secure peer-to-peer messaging requires flexible encryption strategies and user-friendly interfaces.",
+      "approach": "Built a client-server chat system with selectable encryption (RSA, AES, DES, ElGamal) and a Tkinter GUI to visualize encrypted and decrypted messages.",
+      "outcome": "Demonstrated practical cryptography trade-offs and secure message exchange in a user-friendly app.",
+      "images": ["assets/projects/crypto-chat.png"],
+      "links": [{ "label": "Repository", "url": "https://github.com/Abdullahelbarrany/Crypto-Chat" }]
+    },
+    {
+      "id": "mazesearch",
+      "name": "MazeSearch – BFS & DFS Pathfinding",
+      "year": 2025,
+      "tags": ["Algorithms", "Pathfinding", "C#", "Visualization"],
+      "role": "Software Engineer",
+      "tools": ["C#", ".NET", "DataGridView"],
+      "summary": "Interactive maze solver visualizing BFS and DFS pathfinding algorithms on a grid-based UI.",
+      "problem": "Understanding search algorithms is abstract without visual feedback and interaction.",
+      "approach": "Implemented BFS and DFS over a 21×21 grid with real-time visualization of visited nodes and shortest paths.",
+      "outcome": "Created an educational, interactive tool for visualizing algorithm behavior and performance differences.",
+      "images": ["assets/projects/pathfinder.png"],
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/Abdullahelbarrany/MazeSearch-BFS-DFS-Pathfinding" }
+      ]
     }
   ],
-  "featured_project_ids": ["orbitbank", "lumia", "trailmix"]
+  "publications": [
+    { "year": 2023, "title": "Chicken Behavior Analysis for Surveillance in Poultry Farms", "venue": "(IJACSA) International Journal of Advanced Computer Science and Applications", "link": "https://thesai.org/Downloads/Volume14No3/Paper_106-Chicken_Behavior_Analysis_for_Surveillance_in_Poultry_Farms.pdf" },
+    { "year": 2023, "title": "Abnormal Behavior Analysis for Surveillance in Poultry Farms using Deep Learning", "venue": "Intelligent Methods, Systems, and Applications (IMSA)", "link": "https://ieeexplore.ieee.org/document/10217676" },
+        { "year": 2023, "title": "BuckTracker: System For Multi Banknotes Tracking", "venue": "Intelligent Methods, Systems, and Applications (IMSA)", "link": "https://ieeexplore.ieee.org/document/10217421" },
+            { "year": 2023, "title": "AThe Use of Pose Estimation for Abnormal Behavior Analysis in Poultry Farms", "venue": "Novel Intelligent and Leading Emerging Sciences Conference (NILES)", "link": "https://ieeexplore.ieee.org/xpl/conhome/10296538/proceeding" }
+
+
+  ],
+  "blogs": [
+    { "year": 2025, "title": "From Benchmarks to the Real World: Why Healthcare AI Needs Real-World Data", "platform": "mDoc", "link": "https://mymdoc.com/blogs/from-benchmarks-to-the-real-world-why-healthcare-ai-needs-real-world-data-20250901155902082-be54471b-b841-4a35-81fc-7af13a88ae07" }
+  ],
+  "featured_project_ids": ["poultry-ai", "statue-vision", "bucktracker"]
 }

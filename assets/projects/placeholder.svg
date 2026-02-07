@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480">
-  <rect width="800" height="480" fill="#dde3f0"/>
-  <rect x="60" y="60" width="680" height="360" rx="20" fill="#c1d8ff" stroke="#7fa2d8" stroke-width="6" stroke-dasharray="12 10"/>
-  <text x="400" y="250" font-family="Segoe UI" font-size="32" text-anchor="middle" fill="#5b6c87">Add your image</text>
-</svg>
