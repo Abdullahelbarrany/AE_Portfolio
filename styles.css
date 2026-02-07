@@ -265,6 +265,7 @@ body {
 .window-content {
   padding: 12px;
   overflow: auto;
+  max-height: calc(100vh - 180px);
   background: #f7f7f7;
 }
 
@@ -626,3 +627,5 @@ body {
   padding: 8px;
   border-radius: 4px;
 }
+
+

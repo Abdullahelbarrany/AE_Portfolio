@@ -75,6 +75,12 @@
       "school": "University of Greenwich",
       "years": "2019–2023",
       "details": "CGPA: 3.6"
+    },
+        {
+      "degree": "BSc in Computer Science",
+      "school": "October University for Modern Sciences & Arts",
+      "years": "2019–2023",
+      "details": "CGPA: 3.4"
     }
   ],
   "certifications": [
