@@ -193,20 +193,6 @@
       "links": [{ "label": "Repository", "url": "https://github.com/Abdullahelbarrany/orphanage-System-php-with-oop-design-pattern" }]
     },
     {
-      "id": "statuevision",
-      "name": "StatueVision – AI Museum Guide",
-      "year": 2023,
-      "tags": ["Computer Vision", "YOLOv8", "Flutter", "Flask", "Firebase"],
-      "role": "ML Engineer",
-      "tools": ["YOLOv8", "Python", "Flask", "Flutter", "Firebase Firestore"],
-      "summary": "AI-powered mobile museum guide that identifies statues and delivers multilingual descriptions with audio playback.",
-      "problem": "Museum visitors lacked interactive, accessible ways to explore statue information.",
-      "approach": "Trained YOLOv8 for statue recognition, exposed inference via Flask API, and integrated with a Flutter app backed by Firebase Firestore.",
-      "outcome": "Enabled real-time statue recognition with multilingual content and audio, improving visitor engagement.",
-      "images": ["assets/projects/statue.jpg"],
-      "links": [{ "label": "Repository", "url": "https://github.com/Abdullahelbarrany/StatueVision" }]
-    },
-    {
   "id": "image-enhancement-gui",
   "name": "Image Enhancement & Filtering GUI",
   "year": 2024,
@@ -262,6 +248,20 @@
 
 
   ],
+ "reviewer_service": [
+  {
+    "year": 2024,
+    "journal": "Computers and Electronics in Agriculture",
+    "role": "Reviewer",
+    "link": "https://www.sciencedirect.com/journal/computers-and-electronics-in-agriculture",
+    "image": "assets/pics/Revewing_cert.png"
+  },
+    {
+    "year": 2024,
+    "journal": "IEEE Transactions on Multimedia vol. 27",
+    "role": "Reviewer",
+    "link": "https://www.webofscience.com/wos/author/record/LEM-7086-2024"  }
+],
   "blogs": [
     { "year": 2025, "title": "From Benchmarks to the Real World: Why Healthcare AI Needs Real-World Data", "platform": "mDoc", "link": "https://mymdoc.com/blogs/from-benchmarks-to-the-real-world-why-healthcare-ai-needs-real-world-data-20250901155902082-be54471b-b841-4a35-81fc-7af13a88ae07" }
   ],

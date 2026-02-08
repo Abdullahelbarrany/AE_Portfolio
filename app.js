@@ -4,11 +4,13 @@ const state = {
   z: 2,
   data: null,
   mobile: window.matchMedia("(max-width: 720px)").matches,
+  pictures: null,
 };
 
 const ICONS = {
   about: "assets/icons/window.svg",
   pic: "assets/icons/folder.svg",
+  pictures: "assets/icons/pictures.svg",
   cv: "assets/icons/doc.svg",
   achievements: "assets/icons/trophy.svg",
   ask: "assets/icons/app.svg",
@@ -18,6 +20,7 @@ const ICONS = {
   maze: "assets/icons/maze.exe.png",
   window: "assets/icons/window.svg",
 };
+const IMG_PLACEHOLDER = "assets/icons/image-placeholder.svg";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadData();
@@ -25,6 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   buildStartMenu();
   wireStartButton();
   wireGlobalShortcuts();
+  wireImageZoom();
   startClock();
   openApp("about");
 });
@@ -54,6 +58,7 @@ async function loadData() {
 function buildDesktopIcons() {
     const icons = [
     { app: "pic", label: "Projects", icon: ICONS.pic },
+    { app: "pictures", label: "Pictures", icon: ICONS.pictures },
     { app: "mazeGame", label: "MazeGame.exe", icon: ICONS.maze },
     { app: "publications", label: "Publications", icon: ICONS.publications },
     { app: "cv", label: "CV", icon: ICONS.cv },
@@ -87,6 +92,7 @@ function buildStartMenu() {
     const items = [
     { app: "about", label: "About", icon: ICONS.about },
     { app: "pic", label: "Projects", icon: ICONS.pic },
+    { app: "pictures", label: "Pictures", icon: ICONS.pictures },
     { app: "mazeGame", label: "MazeGame.exe", icon: ICONS.maze },
     { app: "publications", label: "Publications", icon: ICONS.publications },
     { app: "cv", label: "CV", icon: ICONS.cv },
@@ -145,6 +151,73 @@ function wireGlobalShortcuts() {
   document.body.classList.toggle("mobile-stack", state.mobile);
 }
 
+function wireImageZoom() {
+  ensureZoomOverlay();
+  document.addEventListener("click", (e) => {
+    const target = e.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    if (target.matches("img.zoomable")) {
+      openImageModal(target.getAttribute("src"), target.getAttribute("alt") || "Image");
+    }
+
+    if (target.id === "img-zoom-overlay" || target.classList.contains("img-zoom-close")) {
+      closeImageModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeImageModal();
+  });
+}
+
+function ensureZoomOverlay() {
+  if (document.getElementById("img-zoom-overlay")) return;
+  const overlay = document.createElement("div");
+  overlay.id = "img-zoom-overlay";
+  overlay.innerHTML = `
+    <button class="img-zoom-close" aria-label="Close image">X</button>
+    <img src="" alt="Full-size view" />
+  `;
+  document.body.appendChild(overlay);
+}
+
+function openImageModal(src, alt) {
+  const overlay = document.getElementById("img-zoom-overlay");
+  if (!overlay) return;
+  const img = overlay.querySelector("img");
+  img.src = src || "";
+  img.alt = alt || "Image";
+  overlay.classList.add("show");
+}
+
+function closeImageModal() {
+  const overlay = document.getElementById("img-zoom-overlay");
+  if (!overlay) return;
+  overlay.classList.remove("show");
+}
+
+function applyImageDefaults(root) {
+  if (!root) return;
+  const imgs = root.querySelectorAll("img:not(.title-icon)");
+  imgs.forEach((img) => {
+    if (!img.classList.contains("img-thumb") && !img.classList.contains("img-detail") && !img.classList.contains("pub-thumb")) {
+      img.classList.add("img-auto");
+    }
+    if (!img.classList.contains("zoomable")) img.classList.add("zoomable");
+    if (!img.getAttribute("loading")) img.setAttribute("loading", "lazy");
+    if (!img.dataset.fallbackBound) {
+      img.dataset.fallbackBound = "true";
+      img.addEventListener("error", () => {
+        if (img.dataset.fallbackApplied) return;
+        img.dataset.fallbackApplied = "true";
+        img.src = IMG_PLACEHOLDER;
+        img.alt = img.alt || "Image unavailable";
+      });
+    }
+  });
+}
+
 function startClock() {
   const clock = document.getElementById("taskbar-clock");
   const set = () => {
@@ -198,6 +271,7 @@ function createWindow(type, props = {}) {
   const content = node.querySelector(".window-content");
   content.innerHTML = "";
   if (props.render) props.render(content);
+  applyImageDefaults(content);
 
   // Controls
   node.querySelector(".btn-close").addEventListener("click", () => closeWindow(id));
@@ -355,6 +429,19 @@ function openApp(appName, payload) {
         icon: ICONS.pic,
         render: (el) => renderPicExplorer(el, payload),
       });
+    case "pictures":
+      return createWindow("pictures", {
+        title: "Pictures",
+        icon: ICONS.pictures,
+        render: (el) => renderPictures(el),
+      });
+    case "pictureViewer":
+      return createWindow("pictureViewer", {
+        title: payload?.name || "Picture Viewer",
+        icon: ICONS.pictures,
+        render: (el) => renderPictureViewer(el, payload),
+        unique: false,
+      });
     case "project":
       return createWindow("project", {
         title: payload?.name || "Project",
@@ -406,51 +493,145 @@ function renderAbout(el, data) {
   const featured = data.featured_project_ids
     .map((id) => data.projects.find((p) => p.id === id))
     .filter(Boolean);
-  el.innerHTML = `
-    <div class="section-grid">
-      <div class="about-header">
-        <div>
-          <h2>${data.name}</h2>
-          <p>${data.title} — ${data.location || ""}</p>
-          <p>${data.bio_short}</p>
+  const slideThemes = ["theme-1", "theme-2", "theme-3", "theme-4", "theme-5"];
+  const slides = [
+    {
+      title: "Hi, I’m " + data.name,
+      body: `
+        <p class="lead">${data.title} — ${data.location || ""}</p>
+        <p>${data.bio_short}</p>
+        <div class="chip-row">${data.skills.slice(0, 6).map((s) => `<span class="chip">${s}</span>`).join("")}</div>
+      `,
+    },
+    {
+      title: "Quick Stats",
+      body: `
+        <div class="stat-grid slide-grid">
+          <div class="stat-card"><strong>Years</strong><br>${data.stats.years}</div>
+          <div class="stat-card"><strong>Focus</strong><br>${data.stats.specialties.join(", ")}</div>
+          <div class="stat-card"><strong>Tools</strong><br>${data.stats.tools.slice(0, 6).join(", ")}</div>
+        </div>
+      `,
+    },
+    {
+      title: "Featured Projects",
+      body: `
+        <div class="file-grid slide-grid" id="featured-grid">
+          ${featured
+            .map(
+              (proj) => `
+              <div class="file-card" data-proj="${proj.id}">
+                <img class="img-thumb zoomable" src="${proj.images[0] || "assets/projects/placeholder.svg"}" alt="${proj.name}" loading="lazy" />
+                <strong>${proj.name}</strong>
+                <div class="project-meta"><span>${proj.year}</span><span>${proj.role}</span></div>
+              </div>`
+            )
+            .join("")}
         </div>
         <div class="button-row">
+          <button class="btn primary" data-action="open-projects">View projects</button>
+        </div>
+      `,
+    },
+    {
+      title: "How I Work",
+      body: `
+        <ol class="timeline">
+          ${data.process_steps.map((step, i) => `<li><span>${i + 1}</span>${step}</li>`).join("")}
+        </ol>
+      `,
+    },
+    {
+      title: "Let’s Talk",
+      body: `
+        <div class="cta-stack">
           <button class="btn primary" data-action="open-cv">Open CV</button>
           <button class="btn" data-action="open-ask">Open Ask Me.exe</button>
           <button class="btn" data-action="contact">Contact</button>
+          <div class="link-row">
+            ${data.links.map((l) => `<a class="btn ghost" href="${l.url}" target="_blank" rel="noreferrer noopener">${l.label}</a>`).join("")}
+          </div>
+        </div>
+      `,
+    },
+  ];
+
+  el.innerHTML = `
+    <div class="about-deck">
+      <div class="deck-header">
+        <div>
+          <h2>About</h2>
+          <p>${data.name}</p>
+        </div>
+        <div class="deck-actions">
+          <span class="wip-badge" aria-label="Work in progress">In progress</span>
+          <button class="btn" data-action="open-cv">CV</button>
+          <button class="btn" data-action="contact">Contact</button>
         </div>
       </div>
-      <div>
-        <h3>Featured Projects</h3>
-        <div class="file-grid" id="featured-grid"></div>
+      <div class="slide-frame" aria-live="polite">
+        ${slides
+          .map(
+            (s, i) => `
+            <section class="slide ${slideThemes[i % slideThemes.length]} ${i === 0 ? "active" : ""}" data-idx="${i}">
+              <header class="slide-header">
+                <span class="pill">${i + 1}/${slides.length}</span>
+                <h3>${s.title}</h3>
+              </header>
+              <div class="slide-body">${s.body}</div>
+            </section>
+          `
+            )
+            .join("")}
       </div>
-      <div>
-        <h3>Quick Stats</h3>
-        <div class="stat-grid">
-          <div class="stat-card"><strong>Years</strong><br>${data.stats.years}</div>
-          <div class="stat-card"><strong>Focus</strong><br>${data.stats.specialties.join(", ")}</div>
-          <div class="stat-card"><strong>Tools</strong><br>${data.stats.tools.slice(0,6).join(", ")}</div>
+      <div class="slide-nav">
+        <button class="btn" data-nav="-1" aria-label="Previous slide">◀ Prev</button>
+        <div class="dots">
+          ${slides.map((_, i) => `<button class="dot ${i === 0 ? "active" : ""}" data-dot="${i}" aria-label="Go to slide ${i + 1}"></button>`).join("")}
         </div>
+        <button class="btn primary" data-nav="1" aria-label="Next slide">Next ▶</button>
       </div>
     </div>
   `;
-  const grid = el.querySelector("#featured-grid");
-  featured.forEach((proj) => {
-    const card = document.createElement("div");
-    card.className = "file-card";
-    card.innerHTML = `
-      <img src="${proj.images[0] || "assets/projects/placeholder.svg"}" alt="${proj.name}" loading="lazy" />
-      <strong>${proj.name}</strong>
-      <div class="project-meta"><span>${proj.year}</span><span>${proj.role}</span></div>
-    `;
-    card.addEventListener("click", () => openApp("pic", { tag: proj.tags[0], focusId: proj.id }));
-    card.addEventListener("dblclick", () => openApp("project", { id: proj.id, name: proj.name }));
-    grid.appendChild(card);
+
+  const slideEls = [...el.querySelectorAll(".slide")];
+  const dotEls = [...el.querySelectorAll(".dot")];
+  const navBtns = el.querySelectorAll("[data-nav]");
+  const total = slideEls.length;
+  let current = 0;
+
+  function show(idx) {
+    current = (idx + total) % total;
+    slideEls.forEach((s, i) => s.classList.toggle("active", i === current));
+    dotEls.forEach((d, i) => d.classList.toggle("active", i === current));
+  }
+
+  navBtns.forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const step = Number(btn.dataset.nav);
+      show(current + step);
+    })
+  );
+  dotEls.forEach((dot) =>
+    dot.addEventListener("click", () => show(Number(dot.dataset.dot)))
+  );
+  el.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") show(current + 1);
+    if (e.key === "ArrowLeft") show(current - 1);
   });
 
-  el.querySelector('[data-action="open-cv"]').onclick = () => openApp("cv");
-  el.querySelector('[data-action="open-ask"]').onclick = () => openApp("ask");
-  el.querySelector('[data-action="contact"]').onclick = () => openApp("contact");
+  el.querySelectorAll('[data-action="open-cv"]').forEach((btn) => (btn.onclick = () => openApp("cv")));
+  el.querySelectorAll('[data-action="open-ask"]').forEach((btn) => (btn.onclick = () => openApp("ask")));
+  el.querySelectorAll('[data-action="contact"]').forEach((btn) => (btn.onclick = () => openApp("contact")));
+  el.querySelectorAll('[data-action="open-projects"]').forEach((btn) => (btn.onclick = () => openApp("pic")));
+
+  el.querySelectorAll("[data-proj]").forEach((card) => {
+    const id = card.dataset.proj;
+    card.addEventListener("click", () => openApp("project", { id }));
+    card.addEventListener("dblclick", () => openApp("project", { id }));
+  });
+
+  applyImageDefaults(el);
 }
 
 function renderPicExplorer(el, options = {}) {
@@ -488,7 +669,7 @@ function renderPicExplorer(el, options = {}) {
     card.className = "file-card";
     card.dataset.id = proj.id;
     card.innerHTML = `
-      <img src="${proj.images[0] || "assets/projects/placeholder.svg"}" alt="${proj.name}" loading="lazy"/>
+      <img class="img-thumb zoomable" src="${proj.images[0] || "assets/projects/placeholder.svg"}" alt="${proj.name}" loading="lazy"/>
       <strong>${proj.name}</strong>
       <div class="project-meta">
         <span>${proj.year}</span>
@@ -503,6 +684,123 @@ function renderPicExplorer(el, options = {}) {
       setTimeout(() => card.classList.remove("active"), 1000);
     }
   });
+  applyImageDefaults(el);
+}
+
+const IMAGE_EXT = /\.(png|jpe?g|gif|webp|bmp|svg|heic|heif)$/i;
+
+async function renderPictures(el) {
+  el.innerHTML = `
+    <div class="photo-wrap">
+      <div class="photo-toolbar">
+        <strong>Pictures</strong>
+        <span class="hint">Double-click an image to open it.</span>
+      </div>
+      <div class="photo-grid" id="photo-grid">
+        <div class="loading">Loading pictures...</div>
+      </div>
+    </div>
+  `;
+
+  const grid = el.querySelector("#photo-grid");
+  const files = await loadPicturesList();
+
+  if (!files.length) {
+    grid.innerHTML = `<p class="muted">No images found in assets/pics/. Add files (png, jpg, gif, webp, bmp, svg, heic) or update manifest.json.</p>`;
+    return;
+  }
+
+  grid.innerHTML = "";
+  files.forEach((src) => {
+    const name = src.split("/").pop();
+    const card = document.createElement("button");
+    card.className = "photo-card";
+    card.innerHTML = `
+      <img class="img-thumb photo-thumb zoomable" src="${src}" alt="${name}" loading="lazy" />
+      <span class="photo-name">${name}</span>
+    `;
+    card.addEventListener("click", () => {
+      grid.querySelectorAll(".photo-card").forEach((btn) => btn.classList.remove("selected"));
+      card.classList.add("selected");
+    });
+    card.addEventListener("dblclick", () => openApp("pictureViewer", { src, name }));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openApp("pictureViewer", { src, name });
+      }
+    });
+    grid.appendChild(card);
+  });
+
+  applyImageDefaults(el);
+}
+
+async function loadPicturesList() {
+  if (Array.isArray(state.pictures) && state.pictures.length) return state.pictures;
+  const base = "assets/pics/";
+
+  const fromListing = await fetchDirectoryListing(base);
+  const pics = fromListing.length ? fromListing : await fetchManifestList(base);
+
+  state.pictures = pics;
+  return pics;
+}
+
+async function fetchDirectoryListing(base) {
+  try {
+    const res = await fetch(base);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const contentType = res.headers.get("content-type") || "";
+    if (!contentType.includes("text/html")) throw new Error("No directory listing");
+    const html = await res.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const links = [...doc.querySelectorAll("a")];
+    const files = links
+      .map((a) => a.getAttribute("href") || "")
+      .filter((href) => IMAGE_EXT.test(href) && !href.startsWith("../"))
+      .map((href) => normalizePicturePath(href, base));
+    return [...new Set(files)];
+  } catch (err) {
+    console.warn("Picture directory scan failed", err);
+    return [];
+  }
+}
+
+async function fetchManifestList(base) {
+  try {
+    const res = await fetch(`${base}manifest.json`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!Array.isArray(data)) return [];
+    return data
+      .filter((item) => typeof item === "string" && IMAGE_EXT.test(item))
+      .map((item) => normalizePicturePath(item, base));
+  } catch (err) {
+    console.warn("Picture manifest load failed", err);
+    return [];
+  }
+}
+
+function normalizePicturePath(path, base) {
+  if (/^https?:/i.test(path) || path.startsWith("data:")) return path;
+  if (path.startsWith(base)) return path;
+  const clean = path.replace(/^\/+/, "");
+  return `${base}${clean}`;
+}
+
+function renderPictureViewer(el, payload = {}) {
+  const src = payload?.src || IMG_PLACEHOLDER;
+  const name = payload?.name || "Image";
+  el.innerHTML = `
+    <div class="picture-viewer">
+      <div class="picture-stage">
+        <img class="img-detail" src="${src}" alt="${name}" loading="lazy" />
+      </div>
+      <div class="photo-name">${name}</div>
+    </div>
+  `;
+  applyImageDefaults(el);
 }
 
 function renderProjectViewer(el, projectId) {
@@ -514,7 +812,7 @@ function renderProjectViewer(el, projectId) {
   el.innerHTML = `
     <div class="project-view">
       <div class="hero">
-        <img src="${project.images[0] || "assets/projects/placeholder.svg"}" alt="${project.name}" loading="lazy" />
+        <img class="img-detail zoomable" src="${project.images[0] || "assets/projects/placeholder.svg"}" alt="${project.name}" loading="lazy" />
       </div>
       <h2>${project.name} (${project.year})</h2>
       <div class="meta-list">
@@ -528,7 +826,7 @@ function renderProjectViewer(el, projectId) {
       <div class="file-grid">
         ${project.images
           .slice(1)
-          .map((img) => `<img src="${img}" alt="${project.name} detail" loading="lazy" />`)
+          .map((img) => `<img class="img-detail zoomable" src="${img}" alt="${project.name} detail" loading="lazy" />`)
           .join("")}
       </div>
       <div class="button-row">
@@ -538,6 +836,7 @@ function renderProjectViewer(el, projectId) {
       </div>
     </div>
   `;
+  applyImageDefaults(el);
 }
 
 function renderCV(el, data) {
@@ -576,11 +875,31 @@ function renderCV(el, data) {
 function renderPublications(el, data) {
   const pubs = data.publications || [];
   const blogs = data.blogs || [];
+  const reviews = data.reviewer_service || [];
   el.innerHTML = `
     <div class="section-grid">
       <h2>Publications</h2>
       <div class="pub-list">
         ${pubs.length ? pubs.map((p) => `<div class="pub-card"><strong>${p.year}</strong> — ${p.title}${p.venue ? `, <em>${p.venue}</em>` : ""}${p.link ? ` — <a href="${p.link}" target="_blank" rel="noreferrer noopener">Link</a>` : ""}</div>`).join("") : "<p>No publications yet. Add them in data/about_me.json.</p>"}
+      </div>
+      <h3>Peer Review</h3>
+      <div class="pub-list">
+        ${
+          reviews.length
+            ? reviews
+                .map(
+                  (r) =>
+                    `<div class="pub-card review-card">
+                      <img class="pub-thumb${r.image ? " zoomable" : ""}" src="${r.image || IMG_PLACEHOLDER}" alt="${r.journal || "Reviewer image"}" loading="lazy" />
+                      <div>
+                        <strong>${r.year || "Year"}</strong> — ${r.journal || "Journal"}${r.role ? ` (${r.role})` : ""}
+                        ${r.link ? ` — <a href="${r.link}" target="_blank" rel="noreferrer noopener">Link</a>` : ""}
+                      </div>
+                    </div>`
+                )
+                .join("")
+            : '<p>No reviewer roles yet. Add them in data/about_me.json under "reviewer_service".</p>'
+        }
       </div>
       <h3>Blogs</h3>
       <div class="pub-list">
@@ -588,6 +907,7 @@ function renderPublications(el, data) {
       </div>
     </div>
   `;
+  applyImageDefaults(el);
 }
 
 function renderAchievements(el, data) {
