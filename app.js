@@ -24,7 +24,7 @@ const IMG_PLACEHOLDER = "assets/icons/image-placeholder.svg";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadData();
-  ensureBackgroundOrb();
+  ensureBackgroundOscilloscope();
   buildDesktopIcons();
   buildStartMenu();
   wireStartButton();
@@ -34,13 +34,196 @@ document.addEventListener("DOMContentLoaded", async () => {
   openApp("about");
 });
 
-function ensureBackgroundOrb() {
+function ensureBackgroundOscilloscope() {
   const desktop = document.getElementById("desktop");
-  if (!desktop || document.getElementById("bg-orb")) return;
-  const orb = document.createElement("div");
-  orb.id = "bg-orb";
-  orb.setAttribute("aria-hidden", "true");
-  desktop.prepend(orb);
+  if (!desktop || document.getElementById("bg-oscilloscope")) return;
+  const canvas = document.createElement("canvas");
+  canvas.id = "bg-oscilloscope";
+  canvas.setAttribute("aria-hidden", "true");
+  desktop.prepend(canvas);
+  startBackgroundOscilloscope(canvas, desktop);
+}
+
+function startBackgroundOscilloscope(canvas, desktop) {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let width = 0;
+  let height = 0;
+  let baselineY = 0;
+  let amplitude = 0;
+  let phaseShift = 0;
+  let raf = null;
+  let noiseSeed = Math.random() * Math.PI * 2;
+
+  function resize() {
+    const rect = desktop.getBoundingClientRect();
+    const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+    width = Math.max(1, Math.floor(rect.width));
+    height = Math.max(1, Math.floor(rect.height));
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    baselineY = height * (width < 900 ? 0.34 : 0.38);
+    amplitude = Math.max(26, Math.min(48, height * 0.05));
+    draw(0, true);
+  }
+
+  function getMorph(t) {
+    const cycle = t % 8;
+    if (cycle < 2) return 0;
+    if (cycle < 3) return cycle - 2;
+    if (cycle < 5) return 1;
+    if (cycle < 6) return 1 - (cycle - 5);
+    return 0;
+  }
+
+  function faceWaveY(normX) {
+    // Scope line becomes a minimal robot face silhouette.
+    let y = 0;
+    if (normX > 0.28 && normX < 0.72) y += Math.sin((normX - 0.5) * Math.PI) * 4;
+    if (normX > 0.38 && normX < 0.45) y -= 14;
+    if (normX > 0.55 && normX < 0.62) y -= 14;
+    if (normX > 0.43 && normX < 0.57) y += 18;
+    return y;
+  }
+
+  function noiseWaveY(normX, time) {
+    const n1 = Math.sin(normX * 28 + time * 4.4 + noiseSeed);
+    const n2 = Math.sin(normX * 73 - time * 7.2 + noiseSeed * 0.7) * 0.42;
+    const n3 = Math.sin(normX * 141 + time * 10.4) * 0.2;
+    return (n1 + n2 + n3) * amplitude;
+  }
+
+  function drawGrid() {
+    ctx.strokeStyle = "rgba(126, 255, 168, 0.12)";
+    ctx.lineWidth = 1;
+    const gridGap = 26;
+    for (let x = 0; x <= width; x += gridGap) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= height; y += gridGap) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+  }
+
+  function drawFaceOverlay(morph, time) {
+    if (morph <= 0.05) return;
+    const alpha = Math.min(0.58, morph * 0.6);
+    const faceW = Math.min(width * 0.28, 320);
+    const faceH = faceW * 0.62;
+    const fx = width * 0.68 - faceW / 2;
+    const fy = baselineY - faceH * 0.42;
+    const blink = Math.max(0.2, Math.sin(time * 2.8) * 0.5 + 0.55);
+
+    ctx.strokeStyle = `rgba(136, 255, 184, ${alpha})`;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(fx, fy, faceW, faceH);
+
+    ctx.fillStyle = `rgba(136, 255, 184, ${alpha * blink})`;
+    ctx.fillRect(fx + faceW * 0.2, fy + faceH * 0.27, faceW * 0.16, faceH * 0.12);
+    ctx.fillRect(fx + faceW * 0.64, fy + faceH * 0.27, faceW * 0.16, faceH * 0.12);
+
+    ctx.strokeStyle = `rgba(136, 255, 184, ${alpha * 0.88})`;
+    ctx.beginPath();
+    ctx.moveTo(fx + faceW * 0.28, fy + faceH * 0.68);
+    ctx.lineTo(fx + faceW * 0.72, fy + faceH * 0.68);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(fx + faceW * 0.5, fy - 12);
+    ctx.lineTo(fx + faceW * 0.5, fy);
+    ctx.stroke();
+
+    const pulseW = faceW * (0.2 + 0.6 * (Math.sin(time * 4.2) * 0.5 + 0.5));
+    ctx.fillStyle = `rgba(136, 255, 184, ${alpha * 0.35})`;
+    ctx.fillRect(fx + (faceW - pulseW) / 2, fy + faceH + 7, pulseW, 3);
+  }
+
+  function draw(ts, still = false) {
+    ctx.clearRect(0, 0, width, height);
+    const time = ts * 0.001;
+    const morph = still ? 1 : getMorph(time);
+
+    drawGrid();
+
+    ctx.strokeStyle = "rgba(104, 240, 146, 0.15)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, baselineY);
+    ctx.lineTo(width, baselineY);
+    ctx.stroke();
+
+    if (!still) phaseShift += 0.028;
+    const scanX = ((phaseShift * 90) % (width + 220)) - 110;
+    const scan = ctx.createLinearGradient(scanX - 110, 0, scanX + 110, 0);
+    scan.addColorStop(0, "rgba(120, 255, 180, 0)");
+    scan.addColorStop(0.5, "rgba(120, 255, 180, 0.08)");
+    scan.addColorStop(1, "rgba(120, 255, 180, 0)");
+    ctx.fillStyle = scan;
+    ctx.beginPath();
+    ctx.rect(0, baselineY - amplitude * 2.4, width, amplitude * 4.8);
+    ctx.fill();
+
+    const points = Math.max(220, Math.floor(width * 0.45));
+    const xStep = width / (points - 1);
+    ctx.lineJoin = "round";
+    ctx.lineCap = "round";
+    ctx.shadowBlur = 12;
+    ctx.shadowColor = "rgba(118, 255, 177, 0.68)";
+    ctx.strokeStyle = "rgba(150, 255, 194, 0.95)";
+    ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    for (let i = 0; i < points; i++) {
+      const x = i * xStep;
+      const normX = i / (points - 1);
+      const noiseY = noiseWaveY(normX, time);
+      const faceY = faceWaveY(normX) * amplitude / 26;
+      const y = baselineY + noiseY * (1 - morph) + faceY * morph;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    drawFaceOverlay(morph, time);
+  }
+
+  function animate(ts) {
+    draw(ts, false);
+    raf = window.requestAnimationFrame(animate);
+  }
+
+  function toggleMotion() {
+    if (reduceMotion.matches) {
+      if (raf) {
+        window.cancelAnimationFrame(raf);
+        raf = null;
+      }
+      draw(0, true);
+      return;
+    }
+    if (!raf) raf = window.requestAnimationFrame(animate);
+  }
+
+  window.addEventListener("resize", resize);
+  if (typeof reduceMotion.addEventListener === "function") {
+    reduceMotion.addEventListener("change", toggleMotion);
+  } else if (typeof reduceMotion.addListener === "function") {
+    reduceMotion.addListener(toggleMotion);
+  }
+
+  resize();
+  toggleMotion();
 }
 
 async function loadData() {
@@ -1557,8 +1740,6 @@ function shutdown() {
     [...state.windows.keys()].forEach(closeWindow);
   }, 1200);
 }
-
-
 
 
 
