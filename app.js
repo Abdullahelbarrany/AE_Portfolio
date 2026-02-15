@@ -797,6 +797,12 @@ async function fetchDirectoryListing(base) {
 }
 
 async function fetchManifestList(base) {
+  const fromJson = await fetchManifestJson(base);
+  if (fromJson.length) return fromJson;
+  return fetchManifestModule(base);
+}
+
+async function fetchManifestJson(base) {
   try {
     const res = await fetch(`${base}manifest.json`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -807,6 +813,20 @@ async function fetchManifestList(base) {
       .map((item) => normalizePicturePath(item, base));
   } catch (err) {
     console.warn("Picture manifest load failed", err);
+    return [];
+  }
+}
+
+async function fetchManifestModule(base) {
+  try {
+    const mod = await import(`./${base}manifest.js`);
+    const data = mod.default || mod.PICTURE_MANIFEST || [];
+    if (!Array.isArray(data)) return [];
+    return data
+      .filter((item) => typeof item === "string" && IMAGE_EXT.test(item))
+      .map((item) => normalizePicturePath(item, base));
+  } catch (err) {
+    console.warn("Picture manifest.js load failed", err);
     return [];
   }
 }
