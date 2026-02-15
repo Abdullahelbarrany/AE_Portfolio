@@ -81,7 +81,7 @@
   "achievements": [
     {
       "year": 2024,
-      "title": "First Place ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 6th UGRF Special Edition",
+      "title": "First Place  6th UGRF Special Edition",
       "org": "Nile University",
       "details": "Awarded for applied AI research and engineering impact."
     },
@@ -93,13 +93,13 @@
     },
     {
       "year": 2023,
-      "title": "Finalist ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Innov8 Hackathon",
+      "title": "Finalist  Innov8 Hackathon",
       "org": "Bahrain",
       "details": "Selected finalist for AI-powered solution."
     },
     {
       "year": 2022,
-      "title": "Finalist ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Benha Hackathon",
+      "title": "Finalist  Benha Hackathon",
       "org": "Benha University",
       "details": "Built an applied AI prototype under time constraints."
     }
@@ -108,13 +108,13 @@
     {
       "role": "Machine Learning Engineer",
       "company": "mDoc",
-      "years": "Mar 2024 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Present",
+      "years": "Mar 2024  Present",
       "summary": "Led end-to-end development of production ML and LLM systems; designed scalable ML services on GCP with monitoring and performance dashboards."
     },
     {
       "role": "Machine Learning Engineer",
       "company": "Zedzag",
-      "years": "May 2023 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Dec 2024",
+      "years": "May 2023  Dec 2024",
       "summary": "Built and deployed real-time computer vision systems; owned the full ML lifecycle from data to production integration."
     }
   ],
@@ -122,13 +122,13 @@
     {
       "degree": "BSc in Computer Science",
       "school": "University of Greenwich",
-      "years": "2019ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“2023",
+      "years": "20192023",
       "details": "CGPA: 3.6"
     },
     {
       "degree": "BSc in Computer Science",
       "school": "October University for Modern Sciences & Arts",
-      "years": "2019ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“2023",
+      "years": "20192023",
       "details": "CGPA: 3.4"
     }
   ],
@@ -150,7 +150,7 @@
     },
     {
       "year": 2022,
-      "title": "AWS Academy Graduate ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Cloud Foundations",
+      "title": "AWS Academy Graduate  Cloud Foundations",
       "org": "Amazon Web Services (AWS)",
       "skills": [
         "Cloud Computing"
@@ -158,7 +158,7 @@
     },
     {
       "year": 2021,
-      "title": "Artificial Intelligence Analyst ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Explorer Award",
+      "title": "Artificial Intelligence Analyst  Explorer Award",
       "org": "IBM",
       "skills": [
         "IBM Watson"
@@ -211,37 +211,10 @@
         }
       ]
     },
-    {
-      "id": "mdoc-llm-assistant",
-      "name": "mDoc LLM Clinical Support Assistant",
-      "year": 2025,
-      "tags": [
-        "LLM",
-        "RAG",
-        "Healthcare AI",
-        "MLOps"
-      ],
-      "role": "Machine Learning Engineer",
-      "tools": [
-        "Python",
-        "LLMs",
-        "RAG",
-        "GCP",
-        "Docker",
-        "Monitoring"
-      ],
-      "summary": "Production LLM assistant to improve internal clinical and operations knowledge access.",
-      "problem": "Internal teams needed faster and more consistent answers from fragmented documentation and process knowledge.",
-      "approach": "Built and deployed a retrieval-augmented assistant with evaluation checks, guardrails, and monitoring for quality, latency, and reliability.",
-      "outcome": "Reduced time-to-answer for recurring knowledge queries and improved response consistency for internal users.",
-      "images": [
-        "assets/icons/image-placeholder.svg"
-      ],
-      "links": []
-    },
+
     {
       "id": "statue-vision",
-      "name": "Statue Vision ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ AI Museum Guide",
+      "name": "Statue Vision  AI Museum Guide",
       "year": 2023,
       "tags": [
         "Computer Vision",
@@ -272,7 +245,7 @@
     },
     {
       "id": "bucktracker",
-      "name": "BuckTracker ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Multi-Banknote Tracking",
+      "name": "BuckTracker - Multi-Banknote Tracking",
       "year": 2023,
       "tags": [
         "OCR",
@@ -302,7 +275,7 @@
     },
     {
       "id": "homeiot",
-      "name": "HomeIoT ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Smart Home App",
+      "name": "HomeIoT- Smart Home App",
       "year": 2022,
       "tags": [
         "IoT",
@@ -430,7 +403,7 @@
     },
     {
       "id": "mazesearch",
-      "name": "MazeSearch ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ BFS & DFS Pathfinding",
+      "name": "MazeSearch  BFS & DFS Pathfinding",
       "year": 2025,
       "tags": [
         "Algorithms",
@@ -509,7 +482,6 @@
     }
   ],
   "featured_project_ids": [
-    "mdoc-llm-assistant",
     "poultry-ai",
     "statue-vision",
     "bucktracker"
