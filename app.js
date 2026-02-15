@@ -999,37 +999,39 @@ function renderContact(el, data) {
 }
 
 function renderAskMe(el, data) {
+  const askConfig = data.ask_me || {};
+  const questionLimit = Number(askConfig.question_limit_per_ip) || 5;
+  const apiBase = (askConfig.api_base || "https://loginunit.jhonmorrisonhbl.workers.dev").replace(/\/+$/, "");
+  const personaPrompt =
+    askConfig.persona_prompt ||
+    `You are ${data.name || "the portfolio owner"}. Answer in first person and reflect personal habits, working style, and project experience with specific details.`;
+  const suggestions = askConfig.suggestions || [
+    "What are your daily work habits as an ML engineer?",
+    "How do you approach model debugging in production?",
+    "What kind of projects are you strongest at?",
+    "How do you balance speed vs quality in delivery?",
+    "What tools do you rely on most and why?",
+  ];
+
   el.innerHTML = `
     <div class="chat">
+      <div class="ask-limit" id="ask-limit" aria-live="polite">Checking question limit...</div>
       <div class="chat-log" aria-live="polite"></div>
       <div class="chips" id="suggested"></div>
       <div class="chat-input">
-        <input type="text" id="chat-text" placeholder="Ask about projects, process, tools..." aria-label="Ask me" />
-        <button class="btn primary" id="chat-send">Send</button>
+        <input type="text" id="chat-text" placeholder="Ask me anything..." aria-label="Ask me" />
+        <button class="btn primary" id="chat-send">Ask</button>
       </div>
-      <div class="button-row">
-        <button class="btn" id="chat-clear">Clear</button>
-        <button class="btn" id="chat-export">Export chat as .txt</button>
-      </div>
-      <details class="prompt-box">
-        <summary>Show system prompt</summary>
-        <p>You are the portfolio guide. Answer only with info from the local knowledge base. Link to windows when helpful. Keep it concise and friendly.</p>
-      </details>
+      <p class="ask-note">Each IP can send up to ${questionLimit} questions total.</p>
     </div>
   `;
   const log = el.querySelector(".chat-log");
+  const limitLine = el.querySelector("#ask-limit");
   const input = el.querySelector("#chat-text");
   const sendBtn = el.querySelector("#chat-send");
-  const clearBtn = el.querySelector("#chat-clear");
-  const exportBtn = el.querySelector("#chat-export");
-  const suggestions = [
-    "What kind of designer are you?",
-    "What projects are you most proud of?",
-    "What's your process?",
-    "What tools do you use?",
-    "How can I contact you?",
-  ];
   const chipsWrap = el.querySelector("#suggested");
+  const conversationHistory = [];
+
   suggestions.forEach((s) => {
     const chip = document.createElement("button");
     chip.className = "chip";
@@ -1045,18 +1047,80 @@ function renderAskMe(el, data) {
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") sendMessage();
   });
-  clearBtn.addEventListener("click", () => (log.innerHTML = ""));
-  exportBtn.addEventListener("click", () => exportChat(log));
+  refreshLimitStatus();
 
-  appendChat(log, "bot", "Hi! Ask me about my work, projects, process, tools, or achievements.");
+  appendChat(log, "bot", "Ask a question. I will answer using Gemini with my profile prompt.");
 
-  function sendMessage() {
+  async function refreshLimitStatus() {
+    const status = await getAskLimitStatus();
+    if (!status) {
+      limitLine.textContent = `Limit check failed. Max allowed per IP: ${questionLimit}`;
+      return;
+    }
+    limitLine.textContent = `Questions remaining for this IP: ${status.remaining}/${status.limit}`;
+  }
+
+  async function getAskLimitStatus() {
+    try {
+      const res = await fetch(`${apiBase}/status`, { cache: "no-store" });
+      if (!res.ok) throw new Error("status request failed");
+      return await res.json();
+    } catch (err) {
+      console.error("Ask limit status failed", err);
+      return null;
+    }
+  }
+
+  async function askViaWorker(question, history) {
+    try {
+      const res = await fetch(`${apiBase}/ask`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question,
+          persona: personaPrompt,
+          history,
+        }),
+      });
+      if (!res.ok) {
+        let details = "";
+        try {
+          const errJson = await res.json();
+          details = errJson?.error ? ` (${errJson.error})` : "";
+        } catch (_) {
+          // ignore JSON parse errors for non-JSON responses
+        }
+        throw new Error(`ask request failed${details}`);
+      }
+      return await res.json();
+    } catch (err) {
+      console.error("Ask worker request failed", err);
+      return null;
+    }
+  }
+
+  async function sendMessage() {
     const text = input.value.trim();
     if (!text) return;
     appendChat(log, "me", text);
+    conversationHistory.push({ role: "user", content: text });
     input.value = "";
-    const reply = askMeRespond(text, data);
-    appendChat(log, "bot", reply.text, reply.sources);
+
+    const response = await askViaWorker(text, conversationHistory.slice(0, -1));
+    if (!response) {
+      appendChat(log, "bot", "I could not process your request right now. Please try again.");
+      return;
+    }
+    limitLine.textContent = `Questions remaining for this IP: ${response.remaining}/${response.limit}`;
+
+    if (!response.ok || response.allowed === false) {
+      appendChat(log, "bot", "This IP has reached the 5-question cap.");
+      return;
+    }
+
+    const answer = response.answer || "No answer returned.";
+    appendChat(log, "bot", answer);
+    conversationHistory.push({ role: "assistant", content: answer });
     log.scrollTop = log.scrollHeight;
   }
 }
@@ -1070,65 +1134,6 @@ function appendChat(container, role, text, sources = "") {
   `;
   container.appendChild(msg);
 }
-
-function exportChat(logEl) {
-  const text = [...logEl.querySelectorAll(".chat-message")]
-    .map((m) => {
-      const who = m.classList.contains("me") ? "You" : "Guide";
-      const body = m.querySelector(".bubble")?.textContent || "";
-      const src = m.querySelector(".sources")?.textContent || "";
-      return `${who}: ${body}${src ? ` (${src})` : ""}`;
-    })
-    .join("\n");
-  const blob = new Blob([text], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "ask-me-chat.txt";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function askMeRespond(userText, data) {
-  const q = userText.toLowerCase();
-  const res = { text: "", sources: "" };
-  const topProjects = data.projects.slice(0, 3);
-
-  if (q.includes("project")) {
-    res.text = topProjects
-      .map((p) => `• ${p.name} (${p.year}) — ${p.summary}`)
-      .join("<br>");
-    res.text += `<br><br>Open Projects to view more or double-click a project file.`;
-    res.sources = "Projects";
-    return res;
-  }
-  if (q.includes("process")) {
-    res.text = data.process_steps.map((step, i) => `${i + 1}. ${step}`).join("<br>");
-    res.sources = "Process";
-    return res;
-  }
-  if (q.includes("tool") || q.includes("skill")) {
-    res.text = `Tools: ${data.stats.tools.join(", ")}<br>Skills: ${data.skills.join(", ")}`;
-    res.sources = "Tools, Skills";
-    return res;
-  }
-  if (q.includes("award") || q.includes("achievement")) {
-    res.text = data.achievements.map((a) => `${a.year}: ${a.title} (${a.org})`).join("<br>");
-    res.text += "<br>Open the Achievements window for details.";
-    res.sources = "Achievements";
-    return res;
-  }
-  if (q.includes("contact") || q.includes("email")) {
-    res.text = `You can email me at ${data.email}. Links: ${data.links.map((l) => l.label).join(", ")}.`;
-    res.sources = "Contact";
-    return res;
-  }
-  res.text =
-    "I can answer about my work, projects, skills, tools, process, and achievements. Try asking about projects or my process!";
-  res.sources = "Bio";
-  return res;
-}
-
 function getDefaultMazeState() {
   const rows = 21;
   const cols = 21;
@@ -1553,9 +1558,6 @@ function shutdown() {
     [...state.windows.keys()].forEach(closeWindow);
   }, 1200);
 }
-
-
-
 
 
 

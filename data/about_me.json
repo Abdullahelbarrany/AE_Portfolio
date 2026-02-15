@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Abdullah Magdy Elbarrany",
   "title": "Machine Learning Engineer & Applied AI Specialist",
   "location": "Egypt",
@@ -6,12 +6,38 @@
   "avatar": "",
   "avatars": [],
   "links": [
-    { "label": "GitHub", "url": "https://github.com/Abdullahelbarrany" },
-    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/abdullahelbarrany" },
-    {"label":"ResearchGate", "url":"https://www.researchgate.net/profile/Abdullah-Elbarrany"},
-    { "label": "ORCID", "url": "https://orcid.org/0009-0004-7610-3097" }],
+    {
+      "label": "GitHub",
+      "url": "https://github.com/Abdullahelbarrany"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/abdullahelbarrany"
+    },
+    {
+      "label": "ResearchGate",
+      "url": "https://www.researchgate.net/profile/Abdullah-Elbarrany"
+    },
+    {
+      "label": "ORCID",
+      "url": "https://orcid.org/0009-0004-7610-3097"
+    }
+  ],
   "bio_short": "Machine Learning Engineer building production-grade AI systems across computer vision, LLMs, and applied ML.",
   "bio_long": "Machine Learning Engineer with hands-on experience building and deploying production-grade AI systems in healthcare and computer vision. Strong background in deep learning, LLM-based systems, and end-to-end ML pipelines including data processing, model training, cloud deployment, monitoring, and iteration in real-world environments. Experienced collaborating with product, clinical, and engineering teams to deliver scalable ML solutions.",
+  "ask_me": {
+    "api_base": "https://loginunit.jhonmorrisonhbl.workers.dev",
+    "gemini_url": "https://gemini.google.com/app",
+    "question_limit_per_ip": 7,
+    "persona_prompt": "You are an AI assistant embedded inside a retro Windows-style portfolio website.\nYour role is to act as a personal profile assistant for Abdullah Magdy Elbarrany.\n\n========================\nSAFETY AND SCOPE RULES\n========================\n- You MUST ONLY answer questions directly about Abdullah (background, skills, experience, projects, CV, links, hobbies, fun facts, publications, and portfolio content).\n- If asked about politics, religion, world news, general knowledge, coding help, or topics not related to Abdullah, politely refuse.\n- If the question is unclear or unrelated, respond with:\n  \"I can only answer questions about Abdullah and what is available in this portfolio. Please ask something related to his background, work, or interests.\"\n- Do NOT hallucinate or invent information. If something is not in the profile/portfolio data, clearly say you do not have that information.\n- Do NOT provide political opinions or general-purpose advice outside portfolio scope.\n\n========================\nABOUT ABDULLAH\n========================\nName: Abdullah Magdy Elbarrany\nTitle: Machine Learning Engineer and Applied AI Specialist\nLocation: Egypt\n\nProfessional Summary:\nAbdullah is a Machine Learning Engineer focused on building and deploying production-grade AI systems, especially in healthcare and computer vision.\nHe has experience with LLM systems, deep learning, MLOps, cloud deployment (GCP and AWS), and end-to-end ML pipelines from research to production.\n\n========================\nLINKS\n========================\nGitHub: https://github.com/Abdullahelbarrany\nLinkedIn: https://www.linkedin.com/in/abdullah-elbarrany-8a300822a/\nResearchGate: https://www.researchgate.net/profile/Abdullah-Elbarrany\nORCID: https://orcid.org/0009-0004-7610-3097\nEmail: abdullah.elbarrany@gmail.com\nCV: Available from the CV window in this portfolio.\n\n========================\nSKILLS\n========================\nLanguages: Python, C++, C#, PHP, Dart\nML and AI: TensorFlow, Keras, Scikit-learn, YOLO, OpenCV, Pandas, NumPy\nCloud and MLOps: GCP, AWS, Docker, Firebase\nFrameworks: Flutter, .NET\nDatabases: MySQL, SQLite\n\n========================\nEXPERIENCE\n========================\n- Machine Learning Engineer at mDoc (2024 to Present)\n  - Built production ML and LLM systems\n  - Designed scalable ML services on GCP\n- Machine Learning Engineer at Zedzag (2023 to 2024)\n  - Built and deployed real-time computer vision systems\n  - Owned ML lifecycle from data to production integration\n\n========================\nPROJECTS\n========================\n- mDoc LLM Clinical Support Assistant\n- Abnormal Behavior Analysis for Poultry Farms\n- Statue Vision AI Museum Guide\n- BuckTracker Multi-Banknote Tracking\n- HomeIoT Smart Home App\n- Orphanage Management System\n- Image Enhancement and Filtering GUI\n- Crypto-Chat SecureChat\n- MazeSearch BFS and DFS Pathfinding\n\n========================\nACHIEVEMENTS\n========================\n- First Place, 6th UGRF Special Edition (2024)\n- Best Paper Award, IMSA Conference (2023)\n- Innov8 Hackathon Finalist (2023)\n\n========================\nPORTFOLIO ENVIRONMENT AWARENESS\n========================\nThis assistant lives inside a retro Windows portfolio with desktop apps and folders such as Ask Me.exe, MazeGame.exe, Projects, Publications, Pictures, and CV.\nIf users ask about available site content, guide them to those sections.\nExamples:\n- \"Open MazeGame.exe from the desktop to try the pathfinding demo.\"\n- \"Check Publications for papers and blogs.\"\n- \"Open Projects to explore detailed case studies and screenshots.\"\n- \"Open CV to view or download the resume.\"\nDo NOT guide users to unrelated external content.\n\n========================\nFUN FACTS\n========================\n- I enjoy researching and writing manuscripts.\n- I am left-handed.\n- I support Real Madrid and Zamalek.\n- I like playing EA FC (formerly FIFA) and Valorant.\n\n========================\nRESPONSE STYLE\n========================\n- Friendly, concise, professional\n- Stay strictly within Abdullah and this portfolio scope\n- If refusing, be polite and brief\n\n========================\nREFUSAL TEMPLATE\n========================\n\"I am designed to answer questions only about Abdullah and what is available in this portfolio. I cannot help with that topic.\"",
+    "suggestions": [
+      "What are your daily habits when building ML systems?",
+      "How do you evaluate whether a model is production ready?",
+      "How do you communicate tradeoffs to product and engineering teams?",
+      "What is your preferred way to debug hard ML failures?",
+      "How do you stay current with new AI research?"
+    ]
+  },
   "stats": {
     "years": 3,
     "specialties": [
@@ -53,22 +79,42 @@
     "API development"
   ],
   "achievements": [
-    { "year": 2024, "title": "First Place – 6th UGRF Special Edition", "org": "Nile University", "details": "Awarded for applied AI research and engineering impact." },
-    { "year": 2023, "title": "Best Paper Award", "org": "IMSA International Conference", "details": "Recognized for research on abnormal behavior analysis using deep learning." },
-    { "year": 2023, "title": "Finalist – Innov8 Hackathon", "org": "Bahrain", "details": "Selected finalist for AI-powered solution." },
-    { "year": 2022, "title": "Finalist – Benha Hackathon", "org": "Benha University", "details": "Built an applied AI prototype under time constraints." }
+    {
+      "year": 2024,
+      "title": "First Place ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ 6th UGRF Special Edition",
+      "org": "Nile University",
+      "details": "Awarded for applied AI research and engineering impact."
+    },
+    {
+      "year": 2023,
+      "title": "Best Paper Award",
+      "org": "IMSA International Conference",
+      "details": "Recognized for research on abnormal behavior analysis using deep learning."
+    },
+    {
+      "year": 2023,
+      "title": "Finalist ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Innov8 Hackathon",
+      "org": "Bahrain",
+      "details": "Selected finalist for AI-powered solution."
+    },
+    {
+      "year": 2022,
+      "title": "Finalist ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Benha Hackathon",
+      "org": "Benha University",
+      "details": "Built an applied AI prototype under time constraints."
+    }
   ],
   "experience": [
     {
       "role": "Machine Learning Engineer",
       "company": "mDoc",
-      "years": "Mar 2024 – Present",
+      "years": "Mar 2024 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Present",
       "summary": "Led end-to-end development of production ML and LLM systems; designed scalable ML services on GCP with monitoring and performance dashboards."
     },
     {
       "role": "Machine Learning Engineer",
       "company": "Zedzag",
-      "years": "May 2023 – Dec 2024",
+      "years": "May 2023 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Dec 2024",
       "summary": "Built and deployed real-time computer vision systems; owned the full ML lifecycle from data to production integration."
     }
   ],
@@ -76,13 +122,13 @@
     {
       "degree": "BSc in Computer Science",
       "school": "University of Greenwich",
-      "years": "2019–2023",
+      "years": "2019ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“2023",
       "details": "CGPA: 3.6"
     },
-        {
+    {
       "degree": "BSc in Computer Science",
       "school": "October University for Modern Sciences & Arts",
-      "years": "2019–2023",
+      "years": "2019ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“2023",
       "details": "CGPA: 3.4"
     }
   ],
@@ -97,19 +143,26 @@
       "year": 2022,
       "title": "Mobile Development Using Flutter",
       "org": "Information Technology Institute (ITI)",
-      "skills": ["Flutter", "Mobile App Development"]
+      "skills": [
+        "Flutter",
+        "Mobile App Development"
+      ]
     },
     {
       "year": 2022,
-      "title": "AWS Academy Graduate – Cloud Foundations",
+      "title": "AWS Academy Graduate ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Cloud Foundations",
       "org": "Amazon Web Services (AWS)",
-      "skills": ["Cloud Computing"]
+      "skills": [
+        "Cloud Computing"
+      ]
     },
     {
       "year": 2021,
-      "title": "Artificial Intelligence Analyst – Explorer Award",
+      "title": "Artificial Intelligence Analyst ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Explorer Award",
       "org": "IBM",
-      "skills": ["IBM Watson"]
+      "skills": [
+        "IBM Watson"
+      ]
     },
     {
       "year": 2021,
@@ -121,7 +174,9 @@
       "year": 2022,
       "title": "Critical Thinking Skills Training Program",
       "org": "Medex International",
-      "skills": ["Critical Thinking"]
+      "skills": [
+        "Critical Thinking"
+      ]
     }
   ],
   "projects": [
@@ -129,159 +184,334 @@
       "id": "poultry-ai",
       "name": "Abnormal Behavior Analysis for Poultry Farms",
       "year": 2024,
-      "tags": ["Computer Vision", "Deep Learning", "AI"],
+      "tags": [
+        "Computer Vision",
+        "Deep Learning",
+        "AI"
+      ],
       "role": "ML Engineer",
-      "tools": ["Python", "YOLOv8", "OpenCV", "BI-LSTM", "GRU"],
+      "tools": [
+        "Python",
+        "YOLOv8",
+        "OpenCV",
+        "BI-LSTM",
+        "GRU"
+      ],
       "summary": "Real-time computer vision system for anomaly detection in poultry farms.",
       "problem": "Manual monitoring of poultry behavior is inefficient and error-prone.",
       "approach": "Built pose-based and trajectory-based detection pipelines using YOLO and RNNs.",
       "outcome": "Achieved up to 99.7% precision and enabled scalable real-time monitoring.",
-      "images": ["assets/projects/methods.png"],
-      "links": [{ "label": "Paper", "url": "hhttps://thesai.org/Downloads/Volume14No3/Paper_106-Chicken_Behavior_Analysis_for_Surveillance_in_Poultry_Farms.pdf" }]
+      "images": [
+        "assets/projects/methods.png"
+      ],
+      "links": [
+        {
+          "label": "Paper",
+          "url": "hhttps://thesai.org/Downloads/Volume14No3/Paper_106-Chicken_Behavior_Analysis_for_Surveillance_in_Poultry_Farms.pdf"
+        }
+      ]
     },
     {
       "id": "mdoc-llm-assistant",
       "name": "mDoc LLM Clinical Support Assistant",
       "year": 2025,
-      "tags": ["LLM", "RAG", "Healthcare AI", "MLOps"],
+      "tags": [
+        "LLM",
+        "RAG",
+        "Healthcare AI",
+        "MLOps"
+      ],
       "role": "Machine Learning Engineer",
-      "tools": ["Python", "LLMs", "RAG", "GCP", "Docker", "Monitoring"],
+      "tools": [
+        "Python",
+        "LLMs",
+        "RAG",
+        "GCP",
+        "Docker",
+        "Monitoring"
+      ],
       "summary": "Production LLM assistant to improve internal clinical and operations knowledge access.",
       "problem": "Internal teams needed faster and more consistent answers from fragmented documentation and process knowledge.",
       "approach": "Built and deployed a retrieval-augmented assistant with evaluation checks, guardrails, and monitoring for quality, latency, and reliability.",
       "outcome": "Reduced time-to-answer for recurring knowledge queries and improved response consistency for internal users.",
-      "images": ["assets/icons/image-placeholder.svg"],
+      "images": [
+        "assets/icons/image-placeholder.svg"
+      ],
       "links": []
     },
     {
       "id": "statue-vision",
-      "name": "Statue Vision – AI Museum Guide",
+      "name": "Statue Vision ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ AI Museum Guide",
       "year": 2023,
-      "tags": ["Computer Vision", "Mobile", "Embeddings"],
+      "tags": [
+        "Computer Vision",
+        "Mobile",
+        "Embeddings"
+      ],
       "role": "ML Engineer",
-      "tools": ["Python", "YOLO", "Flask", "Flutter", "Firebase"],
+      "tools": [
+        "Python",
+        "YOLO",
+        "Flask",
+        "Flutter",
+        "Firebase"
+      ],
       "summary": "AI-powered museum guide using visual recognition and similarity search.",
       "problem": "Visitors lacked interactive ways to explore museum artifacts.",
       "approach": "Built YOLO-based recognition with embedding similarity and mobile integration.",
       "outcome": "Enabled real-time recognition and artifact info retrieval via mobile app.",
-      "images": ["assets/projects/statue.jpg"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/Abdullahelbarrany/StatueVision" }]
+      "images": [
+        "assets/projects/statue.jpg"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Abdullahelbarrany/StatueVision"
+        }
+      ]
     },
     {
       "id": "bucktracker",
-      "name": "BuckTracker – Multi-Banknote Tracking",
+      "name": "BuckTracker ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Multi-Banknote Tracking",
       "year": 2023,
-      "tags": ["OCR", "Computer Vision", "Fintech"],
+      "tags": [
+        "OCR",
+        "Computer Vision",
+        "Fintech"
+      ],
       "role": "ML Engineer",
-      "tools": ["Python", "OpenCV", "Tesseract OCR", "TensorFlow"],
+      "tools": [
+        "Python",
+        "OpenCV",
+        "Tesseract OCR",
+        "TensorFlow"
+      ],
       "summary": "AI system for tracking and recognizing banknotes across frames.",
       "problem": "Needed robust identification of banknotes in real-world conditions.",
       "approach": "Combined CNNs with OCR pipelines for serial number recognition.",
       "outcome": "Achieved 92% accuracy across USD, GBP, and EUR banknotes.",
-      "images": ["assets/projects/buck.png"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/Abdullahelbarrany/BuckTracker-Multi-Banknote-Tracking-System" }]
+      "images": [
+        "assets/projects/buck.png"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Abdullahelbarrany/BuckTracker-Multi-Banknote-Tracking-System"
+        }
+      ]
     },
     {
       "id": "homeiot",
-      "name": "HomeIoT – Smart Home App",
+      "name": "HomeIoT ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ Smart Home App",
       "year": 2022,
-      "tags": ["IoT", "Mobile", "Flutter"],
+      "tags": [
+        "IoT",
+        "Mobile",
+        "Flutter"
+      ],
       "role": "Mobile / ML Engineer",
-      "tools": ["Flutter", "Firebase", "MQTT"],
+      "tools": [
+        "Flutter",
+        "Firebase",
+        "MQTT"
+      ],
       "summary": "Flutter-based IoT app for controlling smart home devices.",
       "problem": "Users needed a simple interface to manage and control smart lamps.",
       "approach": "Built Flutter app with real-time device discovery and cloud sync.",
       "outcome": "Enabled seamless control and real-time device management.",
-      "images": ["assets/projects/homeiot (2).jpg"],
-      "links": [{ "label": "GitHub", "url": "https://github.com/Abdullahelbarrany/Iswitch" }]
+      "images": [
+        "assets/projects/homeiot (2).jpg"
+      ],
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Abdullahelbarrany/Iswitch"
+        }
+      ]
     },
-     {
+    {
       "id": "orphanage-system",
       "name": "Orphanage Management System",
       "year": 2022,
-      "tags": ["Web", "PHP", "Backend", "Security", "Design Patterns"],
+      "tags": [
+        "Web",
+        "PHP",
+        "Backend",
+        "Security",
+        "Design Patterns"
+      ],
       "role": "Full-Stack Developer",
-      "tools": ["PHP (OOP)", "MySQL", "HTML", "CSS", "JavaScript"],
+      "tools": [
+        "PHP (OOP)",
+        "MySQL",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "summary": "Web-based platform to manage orphan registrations, donations, and secure transactions with role-based access control.",
       "problem": "Manual orphan and donation management led to data inconsistency, security risks, and poor scalability.",
       "approach": "Built a modular PHP system using MVC and multiple design patterns (Singleton, Factory, Facade, Strategy, Observer, Decorator) with RBAC and encrypted data handling.",
       "outcome": "Delivered a scalable, maintainable system with secure authentication, donation tracking, and structured data management.",
-      "images": [""],
-      "links": [{ "label": "Repository", "url": "https://github.com/Abdullahelbarrany/orphanage-System-php-with-oop-design-pattern" }]
+      "images": [
+        ""
+      ],
+      "links": [
+        {
+          "label": "Repository",
+          "url": "https://github.com/Abdullahelbarrany/orphanage-System-php-with-oop-design-pattern"
+        }
+      ]
     },
     {
-  "id": "image-enhancement-gui",
-  "name": "Image Enhancement & Filtering GUI",
-  "year": 2024,
-  "tags": ["Image Processing", "Computer Vision", "GUI", "Python"],
-  "role": "Computer Vision Engineer",
-  "tools": ["Python", "OpenCV", "NumPy", "PySimpleGUI", "Pillow", "Matplotlib"],
-  "summary": "Python-based GUI application for image enhancement, noise filtering, sharpening, histogram processing, and frequency-domain transformations.",
-  "problem": "Applying and comparing image enhancement techniques is cumbersome without an interactive, visual interface.",
-  "approach": "Built a user-friendly GUI with PySimpleGUI to apply spatial and frequency-domain filters in real time, integrating OpenCV and NumPy for processing and Matplotlib/Pillow for visualization.",
-  "outcome": "Enabled side-by-side visualization of original vs processed images, making image processing techniques easier to explore, debug, and learn.",
-  "images": ["assets/projects/med.png"],
-  "links": [
-    { "label": "Repository", "url": "https://github.com/Abdullahelbarrany/Image-Enhancement-Filtering" }
-  ]
-},
-
+      "id": "image-enhancement-gui",
+      "name": "Image Enhancement & Filtering GUI",
+      "year": 2024,
+      "tags": [
+        "Image Processing",
+        "Computer Vision",
+        "GUI",
+        "Python"
+      ],
+      "role": "Computer Vision Engineer",
+      "tools": [
+        "Python",
+        "OpenCV",
+        "NumPy",
+        "PySimpleGUI",
+        "Pillow",
+        "Matplotlib"
+      ],
+      "summary": "Python-based GUI application for image enhancement, noise filtering, sharpening, histogram processing, and frequency-domain transformations.",
+      "problem": "Applying and comparing image enhancement techniques is cumbersome without an interactive, visual interface.",
+      "approach": "Built a user-friendly GUI with PySimpleGUI to apply spatial and frequency-domain filters in real time, integrating OpenCV and NumPy for processing and Matplotlib/Pillow for visualization.",
+      "outcome": "Enabled side-by-side visualization of original vs processed images, making image processing techniques easier to explore, debug, and learn.",
+      "images": [
+        "assets/projects/med.png"
+      ],
+      "links": [
+        {
+          "label": "Repository",
+          "url": "https://github.com/Abdullahelbarrany/Image-Enhancement-Filtering"
+        }
+      ]
+    },
     {
       "id": "crypto-chat",
       "name": "Crypto-Chat (SecureChat)",
       "year": 2022,
-      "tags": ["Security", "Cryptography", "Networking", "Python"],
+      "tags": [
+        "Security",
+        "Cryptography",
+        "Networking",
+        "Python"
+      ],
       "role": "Backend & Security Engineer",
-      "tools": ["Python", "Tkinter", "RSA", "AES", "DES", "ElGamal"],
+      "tools": [
+        "Python",
+        "Tkinter",
+        "RSA",
+        "AES",
+        "DES",
+        "ElGamal"
+      ],
       "summary": "End-to-end encrypted chat application supporting multiple cryptographic algorithms via a trusted server model.",
       "problem": "Secure peer-to-peer messaging requires flexible encryption strategies and user-friendly interfaces.",
       "approach": "Built a client-server chat system with selectable encryption (RSA, AES, DES, ElGamal) and a Tkinter GUI to visualize encrypted and decrypted messages.",
       "outcome": "Demonstrated practical cryptography trade-offs and secure message exchange in a user-friendly app.",
-      "images": ["assets/projects/crypto-chat.png"],
-      "links": [{ "label": "Repository", "url": "https://github.com/Abdullahelbarrany/Crypto-Chat" }]
+      "images": [
+        "assets/projects/crypto-chat.png"
+      ],
+      "links": [
+        {
+          "label": "Repository",
+          "url": "https://github.com/Abdullahelbarrany/Crypto-Chat"
+        }
+      ]
     },
     {
       "id": "mazesearch",
-      "name": "MazeSearch – BFS & DFS Pathfinding",
+      "name": "MazeSearch ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ BFS & DFS Pathfinding",
       "year": 2025,
-      "tags": ["Algorithms", "Pathfinding", "C#", "Visualization"],
+      "tags": [
+        "Algorithms",
+        "Pathfinding",
+        "C#",
+        "Visualization"
+      ],
       "role": "Software Engineer",
-      "tools": ["C#", ".NET", "DataGridView"],
+      "tools": [
+        "C#",
+        ".NET",
+        "DataGridView"
+      ],
       "summary": "Interactive maze solver visualizing BFS and DFS pathfinding algorithms on a grid-based UI.",
       "problem": "Understanding search algorithms is abstract without visual feedback and interaction.",
-      "approach": "Implemented BFS and DFS over a 21×21 grid with real-time visualization of visited nodes and shortest paths.",
+      "approach": "Implemented BFS and DFS over a 21ÃƒÆ’Ã¢â‚¬â€21 grid with real-time visualization of visited nodes and shortest paths.",
       "outcome": "Created an educational, interactive tool for visualizing algorithm behavior and performance differences.",
-      "images": ["assets/projects/pathfinder.png"],
+      "images": [
+        "assets/projects/pathfinder.png"
+      ],
       "links": [
-        { "label": "GitHub", "url": "https://github.com/Abdullahelbarrany/MazeSearch-BFS-DFS-Pathfinding" }
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Abdullahelbarrany/MazeSearch-BFS-DFS-Pathfinding"
+        }
       ]
     }
   ],
   "publications": [
-    { "year": 2023, "title": "Chicken Behavior Analysis for Surveillance in Poultry Farms", "venue": "(IJACSA) International Journal of Advanced Computer Science and Applications", "link": "https://thesai.org/Downloads/Volume14No3/Paper_106-Chicken_Behavior_Analysis_for_Surveillance_in_Poultry_Farms.pdf" },
-    { "year": 2023, "title": "Abnormal Behavior Analysis for Surveillance in Poultry Farms using Deep Learning", "venue": "Intelligent Methods, Systems, and Applications (IMSA)", "link": "https://ieeexplore.ieee.org/document/10217676" },
-        { "year": 2023, "title": "BuckTracker: System For Multi Banknotes Tracking", "venue": "Intelligent Methods, Systems, and Applications (IMSA)", "link": "https://ieeexplore.ieee.org/document/10217421" },
-            { "year": 2023, "title": "AThe Use of Pose Estimation for Abnormal Behavior Analysis in Poultry Farms", "venue": "Novel Intelligent and Leading Emerging Sciences Conference (NILES)", "link": "https://ieeexplore.ieee.org/xpl/conhome/10296538/proceeding" }
-
-
-  ],
- "reviewer_service": [
-  {
-    "year": 2024,
-    "journal": "Computers and Electronics in Agriculture",
-    "role": "Reviewer",
-    "link": "https://www.sciencedirect.com/journal/computers-and-electronics-in-agriculture",
-    "image": "assets/pics/Revewing_cert.png"
-  },
     {
-    "year": 2024,
-    "journal": "IEEE Transactions on Multimedia vol. 27",
-    "role": "Reviewer",
-    "link": "https://www.webofscience.com/wos/author/record/LEM-7086-2024"  }
-],
-  "blogs": [
-    { "year": 2025, "title": "From Benchmarks to the Real World: Why Healthcare AI Needs Real-World Data", "platform": "mDoc", "link": "https://mymdoc.com/blogs/from-benchmarks-to-the-real-world-why-healthcare-ai-needs-real-world-data-20250901155902082-be54471b-b841-4a35-81fc-7af13a88ae07" }
+      "year": 2023,
+      "title": "Chicken Behavior Analysis for Surveillance in Poultry Farms",
+      "venue": "(IJACSA) International Journal of Advanced Computer Science and Applications",
+      "link": "https://thesai.org/Downloads/Volume14No3/Paper_106-Chicken_Behavior_Analysis_for_Surveillance_in_Poultry_Farms.pdf"
+    },
+    {
+      "year": 2023,
+      "title": "Abnormal Behavior Analysis for Surveillance in Poultry Farms using Deep Learning",
+      "venue": "Intelligent Methods, Systems, and Applications (IMSA)",
+      "link": "https://ieeexplore.ieee.org/document/10217676"
+    },
+    {
+      "year": 2023,
+      "title": "BuckTracker: System For Multi Banknotes Tracking",
+      "venue": "Intelligent Methods, Systems, and Applications (IMSA)",
+      "link": "https://ieeexplore.ieee.org/document/10217421"
+    },
+    {
+      "year": 2023,
+      "title": "AThe Use of Pose Estimation for Abnormal Behavior Analysis in Poultry Farms",
+      "venue": "Novel Intelligent and Leading Emerging Sciences Conference (NILES)",
+      "link": "https://ieeexplore.ieee.org/xpl/conhome/10296538/proceeding"
+    }
   ],
-  "featured_project_ids": ["mdoc-llm-assistant", "poultry-ai", "statue-vision", "bucktracker"]
+  "reviewer_service": [
+    {
+      "year": 2024,
+      "journal": "Computers and Electronics in Agriculture",
+      "role": "Reviewer",
+      "link": "https://www.sciencedirect.com/journal/computers-and-electronics-in-agriculture",
+      "image": "assets/pics/Revewing_cert.png"
+    },
+    {
+      "year": 2024,
+      "journal": "IEEE Transactions on Multimedia vol. 27",
+      "role": "Reviewer",
+      "link": "https://www.webofscience.com/wos/author/record/LEM-7086-2024"
+    }
+  ],
+  "blogs": [
+    {
+      "year": 2025,
+      "title": "From Benchmarks to the Real World: Why Healthcare AI Needs Real-World Data",
+      "platform": "mDoc",
+      "link": "https://mymdoc.com/blogs/from-benchmarks-to-the-real-world-why-healthcare-ai-needs-real-world-data-20250901155902082-be54471b-b841-4a35-81fc-7af13a88ae07"
+    }
+  ],
+  "featured_project_ids": [
+    "mdoc-llm-assistant",
+    "poultry-ai",
+    "statue-vision",
+    "bucktracker"
+  ]
 }
-

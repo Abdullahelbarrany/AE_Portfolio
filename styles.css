@@ -1162,6 +1162,20 @@ body {
   height: 100%;
 }
 
+.ask-limit {
+  border: 1px solid #9a9a9a;
+  background: #f8f8f8;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+.ask-note {
+  margin: 0;
+  font-size: 12px;
+  color: #333;
+}
+
 .chat-log {
   border: 1px solid #9a9a9a;
   background: #fff;
