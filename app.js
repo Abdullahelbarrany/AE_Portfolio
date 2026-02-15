@@ -24,6 +24,7 @@ const IMG_PLACEHOLDER = "assets/icons/image-placeholder.svg";
 
 document.addEventListener("DOMContentLoaded", async () => {
   await loadData();
+  ensureBackgroundOrb();
   buildDesktopIcons();
   buildStartMenu();
   wireStartButton();
@@ -32,6 +33,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   startClock();
   openApp("about");
 });
+
+function ensureBackgroundOrb() {
+  const desktop = document.getElementById("desktop");
+  if (!desktop || document.getElementById("bg-orb")) return;
+  const orb = document.createElement("div");
+  orb.id = "bg-orb";
+  orb.setAttribute("aria-hidden", "true");
+  desktop.prepend(orb);
+}
 
 async function loadData() {
   try {
@@ -493,14 +503,33 @@ function renderAbout(el, data) {
   const featured = data.featured_project_ids
     .map((id) => data.projects.find((p) => p.id === id))
     .filter(Boolean);
+  const primaryRole = (data.title || "").split(" & ")[0] || data.title || "Engineer";
+  const homeBase = data.location || "Earth";
   const slideThemes = ["theme-1", "theme-2", "theme-3", "theme-4", "theme-5"];
   const slides = [
     {
       title: "Hi, I’m " + data.name,
       body: `
-        <p class="lead">${data.title} — ${data.location || ""}</p>
-        <p>${data.bio_short}</p>
-        <div class="chip-row">${data.skills.slice(0, 6).map((s) => `<span class="chip">${s}</span>`).join("")}</div>
+        <div class="hero-layout">
+          <div class="hero-right">
+            <div class="hero-heading">
+              <h1>${data.name}</h1>
+              <h2>${data.title}</h2>
+            </div>
+            <div class="avatar-caption">Based in ${homeBase}</div>
+            <p class="hero-lead">${data.bio_short}</p>
+            <div class="chip-row hero-chips">${data.skills.slice(0, 6).map((s) => `<span class="chip">${s}</span>`).join("")}</div>
+            <div class="status-strip" role="status" aria-live="polite">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span>Ready</span>
+              <span aria-hidden="true">•</span>
+              <span>${primaryRole}</span>
+              <span aria-hidden="true">•</span>
+              <span>Open to opportunities</span>
+              <span class="status-caret" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
       `,
     },
     {

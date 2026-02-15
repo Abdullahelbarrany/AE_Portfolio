@@ -3,12 +3,15 @@
   "title": "Machine Learning Engineer & Applied AI Specialist",
   "location": "Egypt",
   "email": "abdullah.elbarrany@gmail.com",
+  "avatar": "",
+  "avatars": [],
   "links": [
     { "label": "GitHub", "url": "https://github.com/Abdullahelbarrany" },
-    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/abdullahelbarrany" }
-  ],
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/abdullahelbarrany" },
+    {"label":"ResearchGate", "url":"https://www.researchgate.net/profile/Abdullah-Elbarrany"},
+    { "label": "ORCID", "url": "https://orcid.org/0009-0004-7610-3097" }],
   "bio_short": "Machine Learning Engineer building production-grade AI systems across computer vision, LLMs, and applied ML.",
-  "bio_long": "I’m a Machine Learning Engineer with hands-on experience designing, deploying, and evaluating real-world AI systems. My work spans computer vision, deep learning, and LLM-powered tools for decision support and retrieval. I care deeply about performance, scalability, and turning research-grade models into reliable production services.",
+  "bio_long": "Machine Learning Engineer with hands-on experience building and deploying production-grade AI systems in healthcare and computer vision. Strong background in deep learning, LLM-based systems, and end-to-end ML pipelines including data processing, model training, cloud deployment, monitoring, and iteration in real-world environments. Experienced collaborating with product, clinical, and engineering teams to deliver scalable ML solutions.",
   "stats": {
     "years": 3,
     "specialties": [
@@ -135,6 +138,20 @@
       "outcome": "Achieved up to 99.7% precision and enabled scalable real-time monitoring.",
       "images": ["assets/projects/methods.png"],
       "links": [{ "label": "Paper", "url": "hhttps://thesai.org/Downloads/Volume14No3/Paper_106-Chicken_Behavior_Analysis_for_Surveillance_in_Poultry_Farms.pdf" }]
+    },
+    {
+      "id": "mdoc-llm-assistant",
+      "name": "mDoc LLM Clinical Support Assistant",
+      "year": 2025,
+      "tags": ["LLM", "RAG", "Healthcare AI", "MLOps"],
+      "role": "Machine Learning Engineer",
+      "tools": ["Python", "LLMs", "RAG", "GCP", "Docker", "Monitoring"],
+      "summary": "Production LLM assistant to improve internal clinical and operations knowledge access.",
+      "problem": "Internal teams needed faster and more consistent answers from fragmented documentation and process knowledge.",
+      "approach": "Built and deployed a retrieval-augmented assistant with evaluation checks, guardrails, and monitoring for quality, latency, and reliability.",
+      "outcome": "Reduced time-to-answer for recurring knowledge queries and improved response consistency for internal users.",
+      "images": ["assets/icons/image-placeholder.svg"],
+      "links": []
     },
     {
       "id": "statue-vision",
@@ -265,5 +282,6 @@
   "blogs": [
     { "year": 2025, "title": "From Benchmarks to the Real World: Why Healthcare AI Needs Real-World Data", "platform": "mDoc", "link": "https://mymdoc.com/blogs/from-benchmarks-to-the-real-world-why-healthcare-ai-needs-real-world-data-20250901155902082-be54471b-b841-4a35-81fc-7af13a88ae07" }
   ],
-  "featured_project_ids": ["poultry-ai", "statue-vision", "bucktracker"]
+  "featured_project_ids": ["mdoc-llm-assistant", "poultry-ai", "statue-vision", "bucktracker"]
 }
+
