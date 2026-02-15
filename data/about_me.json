@@ -30,15 +30,16 @@
     "gemini_url": "https://gemini.google.com/app",
     "question_limit_per_ip": 7,
     "persona_prompt":"",
-    "suggestions": [
-      "What are your daily habits when building ML systems?",
-      "How do you evaluate whether a model is production ready?",
-      "How do you communicate tradeoffs to product and engineering teams?",
-      "What is your preferred way to debug hard ML failures?",
-      "How do you stay current with new AI research?"
-    ]
+
+  "suggestions": [
+    "What’s something cool about Abdullah that doesn’t show up on his CV?",
+    "If I only remember one thing about Abdullah, what should it be?",
+    "What kind of real-world problems has Abdullah actually shipped AI for?",
+    "What’s the most impressive type of project Abdullah has worked on professionally?"
+  ]
+
   },
-  "stats": {
+  "stats": {  
     "years": 3,
     "specialties": [
       "Computer Vision",

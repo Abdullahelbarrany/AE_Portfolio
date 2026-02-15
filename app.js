@@ -1005,12 +1005,11 @@ function renderAskMe(el, data) {
   const personaPrompt =
     askConfig.persona_prompt ||
     `You are ${data.name || "the portfolio owner"}. Answer in first person and reflect personal habits, working style, and project experience with specific details.`;
-  const suggestions = askConfig.suggestions || [
-    "What are your daily work habits as an ML engineer?",
-    "How do you approach model debugging in production?",
-    "What kind of projects are you strongest at?",
-    "How do you balance speed vs quality in delivery?",
-    "What tools do you rely on most and why?",
+  const suggestions =[
+    "What’s something cool about Abdullah that doesn’t show up on his CV?",
+    "If I only remember one thing about Abdullah, what should it be?",
+    "What kind of real-world problems has Abdullah actually shipped AI for?",
+    "What’s the most impressive type of project Abdullah has worked on professionally?"
   ];
 
   el.innerHTML = `
@@ -1049,7 +1048,7 @@ function renderAskMe(el, data) {
   });
   refreshLimitStatus();
 
-  appendChat(log, "bot", "Ask a question. I will answer using Gemini with my profile prompt.");
+appendChat(log, "bot", "Curious about my work, projects, or experience? Ask away — this little AI buddy pulls answers straight from my real CV and project history. Try asking about a project I built, the tools I use, or what it’s like to work with me.");
 
   async function refreshLimitStatus() {
     const status = await getAskLimitStatus();
