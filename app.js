@@ -1212,7 +1212,9 @@ function renderAskMe(el, data) {
   const input = el.querySelector("#chat-text");
   const sendBtn = el.querySelector("#chat-send");
   const chipsWrap = el.querySelector("#suggested");
+  const inputWrap = el.querySelector(".chat-input");
   const conversationHistory = [];
+  const maxedOutMessage = "You've reached max turns for today. Come back tomorrow.";
 
   suggestions.forEach((s) => {
     const chip = document.createElement("button");
@@ -1239,7 +1241,14 @@ appendChat(log, "bot", "Curious about my work, projects, or experience? Ask away
       limitLine.textContent = `Limit check failed. Max allowed per IP: ${questionLimit}`;
       return;
     }
+    if (status.unlimited) {
+      limitLine.textContent = "Unlimited access enabled for this IP.";
+      return;
+    }
     limitLine.textContent = `Questions remaining for this IP: ${status.remaining}/${status.limit}`;
+    if (Number(status.remaining) <= 0) {
+      enforceDailyLimitState();
+    }
   }
 
   async function getAskLimitStatus() {
@@ -1264,17 +1273,22 @@ appendChat(log, "bot", "Curious about my work, projects, or experience? Ask away
           history,
         }),
       });
-      if (!res.ok) {
-        let details = "";
-        try {
-          const errJson = await res.json();
-          details = errJson?.error ? ` (${errJson.error})` : "";
-        } catch (_) {
-          // ignore JSON parse errors for non-JSON responses
-        }
-        throw new Error(`ask request failed${details}`);
+      let payload = null;
+      try {
+        payload = await res.json();
+      } catch (_) {
+        // ignore parse errors and fallback to generic handling below
       }
-      return await res.json();
+      if (!res.ok) {
+        return {
+          ok: false,
+          status: res.status,
+          error: payload?.error || "Request failed",
+          remaining: payload?.remaining,
+          limit: payload?.limit,
+        };
+      }
+      return payload;
     } catch (err) {
       console.error("Ask worker request failed", err);
       return null;
@@ -1293,10 +1307,22 @@ appendChat(log, "bot", "Curious about my work, projects, or experience? Ask away
       appendChat(log, "bot", "I could not process your request right now. Please try again.");
       return;
     }
-    limitLine.textContent = `Questions remaining for this IP: ${response.remaining}/${response.limit}`;
+    if (!response.unlimited && Number.isFinite(Number(response.remaining)) && Number.isFinite(Number(response.limit))) {
+      limitLine.textContent = `Questions remaining for this IP: ${response.remaining}/${response.limit}`;
+    }
+
+    const reachedLimit =
+      response.status === 429 ||
+      Number(response.remaining) <= 0 ||
+      String(response.error || "").toLowerCase().includes("limit");
 
     if (!response.ok || response.allowed === false) {
-      appendChat(log, "bot", "This IP has reached the 5-question cap.");
+      if (reachedLimit) {
+        appendChat(log, "bot", maxedOutMessage);
+        enforceDailyLimitState();
+      } else {
+        appendChat(log, "bot", "I could not process your request right now. Please try again.");
+      }
       return;
     }
 
@@ -1305,15 +1331,31 @@ appendChat(log, "bot", "Curious about my work, projects, or experience? Ask away
     conversationHistory.push({ role: "assistant", content: answer });
     log.scrollTop = log.scrollHeight;
   }
+
+  function enforceDailyLimitState() {
+    if (inputWrap) inputWrap.hidden = true;
+    input.disabled = true;
+    sendBtn.disabled = true;
+    if (chipsWrap) chipsWrap.hidden = true;
+    limitLine.textContent = maxedOutMessage;
+  }
 }
 
 function appendChat(container, role, text, sources = "") {
   const msg = document.createElement("div");
   msg.className = `chat-message ${role}`;
-  msg.innerHTML = `
-    <div class="bubble">${text}</div>
-    ${sources ? `<div class="sources">Source: ${sources}</div>` : ""}
-  `;
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = text;
+  msg.appendChild(bubble);
+
+  if (sources) {
+    const sourceLine = document.createElement("div");
+    sourceLine.className = "sources";
+    sourceLine.textContent = `Source: ${sources}`;
+    msg.appendChild(sourceLine);
+  }
+
   container.appendChild(msg);
 }
 function getDefaultMazeState() {
@@ -1740,8 +1782,6 @@ function shutdown() {
     [...state.windows.keys()].forEach(closeWindow);
   }, 1200);
 }
-
-
 
 
 
