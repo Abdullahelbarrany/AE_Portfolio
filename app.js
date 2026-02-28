@@ -56,6 +56,24 @@ function startBackgroundOscilloscope(canvas, desktop) {
   let phaseShift = 0;
   let raf = null;
   let noiseSeed = Math.random() * Math.PI * 2;
+  let pointerX = 0;
+  let pointerY = 0;
+  let targetPointerX = 0;
+  let targetPointerY = 0;
+  let pointerInitialized = false;
+  let pointerInfluence = 0;
+  let targetPointerInfluence = 0;
+  let cursorDots = [];
+  let lastDotAt = 0;
+  const DOT_LIFETIME_MS = 500;
+  const DOT_INTERVAL_MS = 24;
+  const ROBOT_REVEAL_MS = 1800;
+  let robotRevealStart = 0;
+  let robotRevealUntil = 0;
+
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
+  }
 
   function resize() {
     const rect = desktop.getBoundingClientRect();
@@ -69,17 +87,96 @@ function startBackgroundOscilloscope(canvas, desktop) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     baselineY = height * (width < 900 ? 0.34 : 0.38);
     amplitude = Math.max(26, Math.min(48, height * 0.05));
+    if (!pointerInitialized) {
+      pointerX = width * 0.5;
+      targetPointerX = pointerX;
+      pointerY = baselineY;
+      targetPointerY = baselineY;
+      pointerInitialized = true;
+    } else {
+      pointerX = clamp(pointerX, 0, width);
+      targetPointerX = clamp(targetPointerX, 0, width);
+      pointerY = clamp(pointerY, 0, height);
+      targetPointerY = clamp(targetPointerY, 0, height);
+    }
     draw(0, true);
   }
 
-  function getMorph(t) {
-    const cycle = t % 8;
-    if (cycle < 2) return 0;
-    if (cycle < 3) return cycle - 2;
-    if (cycle < 5) return 1;
-    if (cycle < 6) return 1 - (cycle - 5);
-    return 0;
+  function getMorph(nowMs) {
+    if (nowMs >= robotRevealUntil || robotRevealUntil <= robotRevealStart) return 0;
+    const progress = (nowMs - robotRevealStart) / ROBOT_REVEAL_MS;
+    if (progress <= 0.2) return clamp(progress / 0.2, 0, 1);
+    if (progress >= 0.8) return clamp((1 - progress) / 0.2, 0, 1);
+    return 1;
   }
+
+  function setPointerFromEvent(e) {
+    const rect = desktop.getBoundingClientRect();
+    targetPointerX = clamp(e.clientX - rect.left, 0, width);
+    targetPointerY = clamp(e.clientY - rect.top, 0, height);
+    targetPointerInfluence = 1;
+    pointerInitialized = true;
+  }
+
+  function addCursorDot(x, y, force = false) {
+    const now = performance.now();
+    if (!force && now - lastDotAt < DOT_INTERVAL_MS) return;
+    lastDotAt = now;
+    cursorDots.push({ x, y, born: now });
+    if (cursorDots.length > 120) cursorDots = cursorDots.slice(-120);
+  }
+
+  function drawCursorDots(nowMs) {
+    cursorDots = cursorDots.filter((dot) => nowMs - dot.born <= DOT_LIFETIME_MS);
+    for (const dot of cursorDots) {
+      const age = nowMs - dot.born;
+      const progress = clamp(age / DOT_LIFETIME_MS, 0, 1);
+      const alpha = (1 - progress) * 0.85;
+      const radius = 1.8 + progress * 4.4;
+
+      ctx.fillStyle = `rgba(160, 255, 199, ${alpha})`;
+      ctx.beginPath();
+      ctx.arc(dot.x, dot.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = `rgba(160, 255, 199, ${alpha * 0.55})`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(dot.x, dot.y, radius + 3, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+
+  function revealRobot() {
+    const now = performance.now();
+    robotRevealStart = now;
+    robotRevealUntil = now + ROBOT_REVEAL_MS;
+  }
+
+  desktop.addEventListener("pointermove", (e) => {
+    setPointerFromEvent(e);
+    addCursorDot(targetPointerX, targetPointerY);
+    if (reduceMotion.matches) draw(performance.now(), true);
+  });
+
+  desktop.addEventListener("pointerleave", () => {
+    targetPointerInfluence = 0;
+  });
+
+  desktop.addEventListener("dblclick", (e) => {
+    setPointerFromEvent(e);
+    addCursorDot(targetPointerX, targetPointerY, true);
+    revealRobot();
+    if (reduceMotion.matches) draw(performance.now(), true);
+  });
+
+  desktop.addEventListener("touchstart", () => {
+    targetPointerInfluence = 1;
+  }, { passive: true });
+
+  desktop.addEventListener("touchend", () => {
+    targetPointerInfluence = 0;
+  }, { passive: true });
 
   function faceWaveY(normX) {
     // Scope line becomes a minimal robot face silhouette.
@@ -121,8 +218,13 @@ function startBackgroundOscilloscope(canvas, desktop) {
     const alpha = Math.min(0.58, morph * 0.6);
     const faceW = Math.min(width * 0.28, 320);
     const faceH = faceW * 0.62;
-    const fx = width * 0.68 - faceW / 2;
-    const fy = baselineY - faceH * 0.42;
+    const faceAnchorX = clamp(pointerX, faceW * 0.5 + 12, width - faceW * 0.5 - 12);
+    const fx = faceAnchorX - faceW / 2;
+    const fy = clamp(
+      baselineY - faceH * 0.42 + (pointerY - baselineY) * 0.14,
+      14,
+      height - faceH - 14
+    );
     const blink = Math.max(0.2, Math.sin(time * 2.8) * 0.5 + 0.55);
 
     ctx.strokeStyle = `rgba(136, 255, 184, ${alpha})`;
@@ -151,17 +253,16 @@ function startBackgroundOscilloscope(canvas, desktop) {
 
   function draw(ts, still = false) {
     ctx.clearRect(0, 0, width, height);
-    const time = ts * 0.001;
-    const morph = still ? 1 : getMorph(time);
+    const nowMs = ts > 0 ? ts : performance.now();
+    const time = nowMs * 0.001;
+    pointerX += (targetPointerX - pointerX) * 0.2;
+    pointerY += (targetPointerY - pointerY) * 0.2;
+    pointerInfluence += (targetPointerInfluence - pointerInfluence) * 0.18;
+    const morph = getMorph(nowMs);
 
     drawGrid();
 
-    ctx.strokeStyle = "rgba(104, 240, 146, 0.15)";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(0, baselineY);
-    ctx.lineTo(width, baselineY);
-    ctx.stroke();
+    const dynamicBaseline = baselineY + (pointerY - baselineY) * 0.1 * pointerInfluence;
 
     if (!still) phaseShift += 0.028;
     const scanX = ((phaseShift * 90) % (width + 220)) - 110;
@@ -171,11 +272,13 @@ function startBackgroundOscilloscope(canvas, desktop) {
     scan.addColorStop(1, "rgba(120, 255, 180, 0)");
     ctx.fillStyle = scan;
     ctx.beginPath();
-    ctx.rect(0, baselineY - amplitude * 2.4, width, amplitude * 4.8);
+    ctx.rect(0, dynamicBaseline - amplitude * 2.4, width, amplitude * 4.8);
     ctx.fill();
 
     const points = Math.max(220, Math.floor(width * 0.45));
     const xStep = width / (points - 1);
+    const cursorNormX = width > 1 ? pointerX / width : 0.5;
+    const cursorLift = pointerY - dynamicBaseline;
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
     ctx.shadowBlur = 12;
@@ -188,13 +291,18 @@ function startBackgroundOscilloscope(canvas, desktop) {
       const normX = i / (points - 1);
       const noiseY = noiseWaveY(normX, time);
       const faceY = faceWaveY(normX) * amplitude / 26;
-      const y = baselineY + noiseY * (1 - morph) + faceY * morph;
+      const dist = Math.abs(normX - cursorNormX);
+      const falloff = clamp(1 - dist / 0.24, 0, 1);
+      const pullY = cursorLift * falloff * falloff * 0.34 * pointerInfluence;
+      const ripple = Math.sin((dist * 22 - time * 10.5) + phaseShift) * amplitude * 0.12 * falloff * pointerInfluence;
+      const y = dynamicBaseline + noiseY * (1 - morph) + faceY * morph + pullY + ripple;
       if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
     ctx.stroke();
     ctx.shadowBlur = 0;
 
+    drawCursorDots(nowMs);
     drawFaceOverlay(morph, time);
   }
 
@@ -1782,9 +1890,6 @@ function shutdown() {
     [...state.windows.keys()].forEach(closeWindow);
   }, 1200);
 }
-
-
-
 
 
 
