@@ -4,7 +4,6 @@ const PICTURE_MANIFEST = [
   "SCRUM_cert.jpg",
   "Revewing_cert.png",
   "MSA.JPG",
-  "Google_Session.jpg",
   "GDHF+2025.JPG",
   "Best_paper_award.png",
   "Best papper award.jpg",
